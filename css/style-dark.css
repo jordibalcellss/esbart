@@ -1,0 +1,32 @@
+body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; text-align: left; margin: 50px; padding: 0; color: #ccc; background-color: #222; }
+
+a { color: #6af; }
+
+ul#menu { margin-bottom: 35px; }
+
+input[type="text"], input[type="password"], select {
+	padding: 4px 4px 4px 6px;
+	margin-top: 4px;
+	margin-bottom: 10px;
+	border: 1px #777 solid;
+	border-radius: 2px;
+	background: #333;
+	color: #ccc;
+}
+
+input[type="submit"] {
+	padding: 3px 11px;
+	margin-top: 10px;
+	border: 1px #777 solid;
+	border-radius: 4px;
+	background: #333;
+	color: #ccc;
+	font-weight: 800;
+}
+
+form #messages { margin-top: 15px; line-height: 18px; }
+
+div.not-editable-form-item {
+	margin-bottom: 11px;
+	color: #777;
+}
