@@ -23,7 +23,7 @@ if ($_POST) {
 
 	if ($con) {
 		if (strlen($_POST['username']) == 0 || strlen($_POST['password']) == 0) {
-			$err[] = all_fields_required;
+			$err[] = both_fields_required;
 			writeLog('login-error.log','empty fields');
 		}
 		else {

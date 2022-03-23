@@ -2,7 +2,7 @@
 define("username","nom d'usuari");
 define("password","contrasenya");
 define("login_submit","entra");
-define("all_fields_required","no deixeu cap camp buit");
+define("both_fields_required","no deixeu cap camp buit");
 define("unauthorized","no teniu pas permís");
 define("user_and_or_password_incorrect","usuari i/o contrasenya incorrecta");
 
@@ -87,11 +87,11 @@ define("cheers","Salut!");
 
 define("welcome_to","Benvingut a");
 define("welcome_set_password_via","Benvingut/da a ".FROM_NAME.". Si us plau, crea una contrasenya pel teu nou compte a través d'aquest enllaç:");
-define("welcome_access_advice","Et sortirà un avís quan intentis entrar-hi, sobre el certificat SSL. Pots ignorar-lo afegint l'excepció de manera permanent, el certificat és segur.");
+define("welcome_access_advice","");
 
 define("account_ready","El teu compte ja està preparat. El teu nom d'usuari és");
-define("account_ready_advice","Si necessites accedir a ownCloud, ho pots fer a través de l'<a href=\"https://owncloud.eixamcoop.cat\">aplicatiu web</a>, o bé per mitjà de l'aplicació d'escriptori, que et permet sincronitzar automàticament els fitxers. La pots descarregar en <a href=\"https://owncloud.com/desktop-app/\">aquest enllaç</a>. Una vegada instal·lat, has d'afegir un compte nou:");
-define("account_ready_server","Servidor: https://owncloud.eixamcoop.cat");
-define("account_ready_explanation","El programa crearà la carpeta <em>ownCloud</em> al directori d'usuari del teu ordinador. Et recomanem que usis fitxers virtuals ja que fan un ús raonable de l'espai de disc. També pots seleccionar la carpeta (o carpetes) que vols sincronitzar. Això depèn del projecte en el qual treballis.");
+define("account_ready_advice","");
+define("account_ready_server","");
+define("account_ready_explanation","");
 define("account_ready_help","Si tens algun problema amb algun dels serveis, pots enviar un correu a ".FROM_REPLYTO.".");
 ?>

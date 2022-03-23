@@ -2,12 +2,12 @@
 define("username","login");
 define("password","password");
 define("login_submit","login");
-define("all_fields_required","no deixeu cap camp buit");
-define("unauthorized","no teniu pas permís");
-define("user_and_or_password_incorrect","usuari i/o contrasenya incorrecta");
+define("both_fields_required","both fields are required");
+define("unauthorized","you have no permission");
+define("user_and_or_password_incorrect","user and/or password incorrect");
 
 define("greeting","hi");
-define("greeting_again","hola de nou");
+define("greeting_again","hi again");
 define("logout","log out");
 
 define("user","user");
@@ -25,7 +25,7 @@ define("edit","edit");
 define("repeat","repeat");
 define("create","set");
 define("save","save");
-define("was_disabled","s'ha desactivat");
+define("was_disabled","was disabled");
 
 define("name","name");
 define("surname","surname");
@@ -40,19 +40,19 @@ define("members","members");
 define("actions","actions");
 define("there_are","there are");
 
-define("user_add_assisted_name_surname_email_required","el nom, primer cognom i correu-e són necessaris");
-define("name_cannot_be_empty","el nom no pot ser pas buit");
-define("name_username_cannot_be_empty","el nom i nom d'usuari no poden ser pas buits");
-define("username_legal_characters","el nom d'usuari només pot tenir minúscules, números i punts");
-define("verify_email","verifiqueu el correu-e, si us plau");
-define("user_add_success","s'ha creat el compte correctament");
-define("user_edit_success","s'ha editat el compte amb èxit");
-define("user_add_welcome_email_sent","hem enviat el missatge de benvinguda");
-define("user_add_welcome_email_not_sent","hi ha hagut algun problema amb el missatge de benvinguda");
-define("a_problem_occurred","hi ha hagut algun problema");
-define("group_add_success","s'ha creat el grup correctament");
-define("group_already_exists","aquest grup ja existeix");
-define("user_already_exists","aquest usuari ja existeix");
+define("user_add_assisted_name_surname_email_required","name, surname and email are required");
+define("name_cannot_be_empty","name cannot be empty");
+define("name_username_cannot_be_empty","name and username cannot be empty");
+define("username_legal_characters","username can only have lowercase characters, numbers and dots");
+define("verify_email","verify the email, please");
+define("user_add_success","the account was successfully created");
+define("user_edit_success","the account was edited successfully");
+define("user_add_welcome_email_sent","the welcome email was sent");
+define("user_add_welcome_email_not_sent","an error occurred with the welcome email");
+define("a_problem_occurred","an error ocurred");
+define("group_add_success","the group was successfully created");
+define("group_already_exists","this group already exists");
+define("user_already_exists","this user already exists");
 define("group_naming_advice","it is recommended to avoid spaces and special characters");
 
 define("user_add_how_to_use","how to use this form");
@@ -62,36 +62,36 @@ define("user_add_assisted_advice_1","fill in the name and the surname");
 define("user_add_assisted_advice_2","double check to the email address: it will be sent the welcome setup");
 define("user_add_assisted_advice_3","the groups allow multiple selection");
 
-define("one_time_password_email_sent","s'ha enviat un formulari a");
-define("user_does_not_exist","no sembla que aquest usuari existeixi");
-define("reactivate_pw_request_necessary","per a reactivar-lo, cal sol·licitar una nova contrasenya");
+define("one_time_password_email_sent","a form has been sent to");
+define("user_does_not_exist","this user can't seem to exist");
+define("reactivate_pw_request_necessary","to reactivate a password reset is necessary");
 
-define("password_does_not_match","la contrasenya no coincideix");
-define("password_must_contain_at_least","la contrasenya ha de tenir, almenys,");
-define("characters","caràcters");
-define("num_symbol","un número o un símbol");
-define("lowercase_letter","una lletra minúscula");
-define("uppercase_letter","una lletra majúscula");
+define("password_does_not_match","the password does not match");
+define("password_must_contain_at_least","the password must be, at least,");
+define("characters","characters");
+define("num_symbol","a number or a symbol");
+define("lowercase_letter","an uppercase letter");
+define("uppercase_letter","a lowercase letter");
 
-define("password_created_confirmation_sent","gràcies per crear-la, tot just t'hem enviat un altre correu-e explicant com usar el teu nou compte");
-define("new_password_ready","tot bé, ja es pot usar la nova contrasenya");
+define("password_created_confirmation_sent","thanks for creating it, we've just sent you an email on how to use your new account");
+define("new_password_ready","all good, the new password is ready");
 
 define("set_password_header","set password");
 define("set_password_requirements","it must be at least ".MIN_PASSWORD_LENGTH." characters long, contain a lowercase letter, an uppercase one, and a number or a symbol");
 
-define("reset_password","Restabliu la contrasenya");
-define("somebody_offered_reset_link","Algú a ".FROM_NAME." us està oferint canviar la contrasenya del vostre compte. Podeu restablir-la a través d'aquest enllaç:");
-define("if_unsolicited_ignore","Si no ho heu demanat, ignoreu aquest missatge.");
-define("thank_you","Gràcies.");
-define("cheers","Salut!");
+define("reset_password","Reset the password");
+define("somebody_offered_reset_link","Somebody in ".FROM_NAME." offered you an account password reset. You can reset it following this link:");
+define("if_unsolicited_ignore","If you haven't requested it, ignore this email.");
+define("thank_you","Thank-you.");
+define("cheers","Regards");
 
-define("welcome_to","Benvingut a");
-define("welcome_set_password_via","Benvingut/da a ".FROM_NAME.". Si us plau, crea una contrasenya pel teu nou compte a través d'aquest enllaç:");
-define("welcome_access_advice","Et sortirà un avís quan intentis entrar-hi, sobre el certificat SSL. Pots ignorar-lo afegint l'excepció de manera permanent, el certificat és segur.");
+define("welcome_to","Welcome to");
+define("welcome_set_password_via","Welcome to ".FROM_NAME.". Please, create a password for your new account following this link:");
+define("welcome_access_advice","Once created, we'll confirm the account details.");
 
-define("account_ready","El teu compte ja està preparat. El teu nom d'usuari és");
-define("account_ready_advice","Si necessites accedir a ownCloud, ho pots fer a través de l'<a href=\"https://owncloud.eixamcoop.cat\">aplicatiu web</a>, o bé per mitjà de l'aplicació d'escriptori, que et permet sincronitzar automàticament els fitxers. La pots descarregar en <a href=\"https://owncloud.com/desktop-app/\">aquest enllaç</a>. Una vegada instal·lat, has d'afegir un compte nou:");
-define("account_ready_server","Servidor: https://owncloud.eixamcoop.cat");
-define("account_ready_explanation","El programa crearà la carpeta <em>ownCloud</em> al directori d'usuari del teu ordinador. Et recomanem que usis fitxers virtuals ja que fan un ús raonable de l'espai de disc. També pots seleccionar la carpeta (o carpetes) que vols sincronitzar. Això depèn del projecte en el qual treballis.");
-define("account_ready_help","Si tens algun problema amb algun dels serveis, pots enviar un correu a ".FROM_REPLYTO.".");
+define("account_ready","Your new account is ready. Your user name is");
+define("account_ready_advice","");
+define("account_ready_server","");
+define("account_ready_explanation","");
+define("account_ready_help","If you need help with any service, you can reach us at ".FROM_REPLYTO.".");
 ?>

@@ -19,7 +19,7 @@ $bind = $LDAPcon[1];
 if ($_POST && $bind) {
 	if ($_GET['action'] == 'password') {
 		if (strlen($_POST['password']) == 0 || strlen($_POST['password_c']) == 0) {
-			$err[] = all_fields_required;
+			$err[] = both_fields_required;
 		}
 		else {
 			if ($_POST['password'] != $_POST['password_c']) {
