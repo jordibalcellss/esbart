@@ -1,5 +1,5 @@
 -- esbart.sql
--- one time hashes database
+-- one time tokens database
 
 CREATE DATABASE esbart;
 USE esbart;

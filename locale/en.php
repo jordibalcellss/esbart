@@ -3,8 +3,11 @@ define("username","login");
 define("password","password");
 define("login_submit","login");
 define("both_fields_required","both fields are required");
+define("both_fields_required_log","empty fields");
 define("unauthorized","you have no permission");
+define("unauthorized_log","unauthorized");
 define("user_and_or_password_incorrect","user and/or password incorrect");
+define("logged_in","logged in");
 
 define("greeting","hi");
 define("greeting_again","hi again");
@@ -77,6 +80,7 @@ define("password_created_confirmation_sent","thanks for creating it, we've just 
 define("new_password_ready","all good, the new password is ready");
 
 define("set_password_header","set password");
+define("set_reset_password_header","(re)set password");
 define("set_password_requirements","it must be at least ".MIN_PASSWORD_LENGTH." characters long, contain a lowercase letter, an uppercase one, and a number or a symbol");
 
 define("reset_password","Reset the password");

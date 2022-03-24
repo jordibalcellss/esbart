@@ -3,8 +3,11 @@ define("username","nom d'usuari");
 define("password","contrasenya");
 define("login_submit","entra");
 define("both_fields_required","no deixeu cap camp buit");
+define("both_fields_required_log","camps buits");
 define("unauthorized","no teniu pas permís");
+define("unauthorized_log","no autoritzat");
 define("user_and_or_password_incorrect","usuari i/o contrasenya incorrecta");
+define("logged_in","autenticat");
 
 define("greeting","hola");
 define("greeting_again","hola de nou");
@@ -77,6 +80,7 @@ define("password_created_confirmation_sent","gràcies per crear-la, tot just t'h
 define("new_password_ready","tot bé, ja es pot usar la nova contrasenya");
 
 define("set_password_header","crea la contrasenya");
+define("set_reset_password_header","crea/edita la contrasenya");
 define("set_password_requirements","ha de de tenir ".MIN_PASSWORD_LENGTH." caràcters o més, almenys una lletra minúscula, una de majúscula, i un número o un símbol");
 
 define("reset_password","Restabliu la contrasenya");

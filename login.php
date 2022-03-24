@@ -14,8 +14,8 @@ if (isset($_GET['action'])) {
 ob_start();
 //buffers output until end of page or ob_ functions
 
-require_once 'functions.php';
-include 'inc/head-login.php';
+require_once 'include/functions.php';
+include 'include/template/head-login.php';
 
 if ($_POST) {
 	$con = ldap_connect(LDAP_HOST);
@@ -24,10 +24,10 @@ if ($_POST) {
 	if ($con) {
 		if (strlen($_POST['username']) == 0 || strlen($_POST['password']) == 0) {
 			$err[] = both_fields_required;
-			writeLog('login-error.log','empty fields');
+			writeLog('login-error.log',both_fields_required_log);
 		}
 		else {
-			$username = $_POST['username'];
+			$username = trim($_POST['username']);
 			$bind = @ldap_bind($con,"uid=$username,ou=users,".LDAP_TREE,$_POST['password']); //@ supresses warnings
 			if ($bind) {
 				$result = ldap_read($con,LDAP_AUTH_GROUP,"(memberuid=*)",array('memberuid')); //equivalent to ldap_search()
@@ -38,19 +38,19 @@ if ($_POST) {
 					if ($entries[0]['memberuid'][$i] == $username) {
 						$_SESSION['id'] = $username;
 						$success = true;
-						writeLog('login-access.log','logged in');
+						writeLog('login-access.log',logged_in);
 						ob_end_clean(); //cleans the output buffer and stops buffering
 						header("Location: index.php");
 					}
 				}
 				if (!$success) {
 					$err[] = unauthorized;
-					writeLog('login-error.log','unauthorized');
+					writeLog('login-error.log',unauthorized_log);
 				}
 			}
 			else {
 				$err[] = user_and_or_password_incorrect;
-				writeLog('login-error.log','wrong creds');
+				writeLog('login-error.log',user_and_or_password_incorrect);
 			}
 		}
 	}
@@ -62,12 +62,12 @@ else {
 			<h1><?=TITLE?></h1>
 			<form id="login" enctype="application/x-www-form-urlencoded" method="post" action="<?=$_SERVER['PHP_SELF']?>">
 				<div><label for="username"><?=username?></label></div>
-				<div><input name="username" type="text" class="" value="" /></div>
+				<div><input name="username" type="text" value="" /></div>
 				
 				<div><label for="password"><?=password?></label></div>
-				<div><input name="password" type="password" class="" value="" /></div>
+				<div><input name="password" type="password" value="" /></div>
 			
-				<input name="envia" type="submit" class="" value="<?=login_submit?>" />
+				<input name="envia" type="submit" value="<?=login_submit?>" />
 <?php
 	printMessages($err);
 	echo <<<EOD

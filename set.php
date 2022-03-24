@@ -4,8 +4,8 @@ require_once 'locale/'.LOCALE.'.php';
 ini_set('error_reporting',ERROR_REPORTING);
 ini_set('display_errors',DISPLAY_ERRORS);
 
-require_once 'functions.php';
-include 'inc/head-login.php';
+require_once 'include/functions.php';
+include 'include/template/head-login.php';
 
 if (isset($_GET['p'])) {
 	$db = new DB();
@@ -36,20 +36,24 @@ if (isset($_GET['p'])) {
 							$err[] = password_must_contain_at_least." ".uppercase_letter;
 						}
 						if (!isset($err)) {
+							//prepare entry
 							$password = $_POST['password'];
 							$uid = $result['user_id'];
+							
 							//disable the pass code
 							$stmt = $db->query("UPDATE pw_set_requests SET expired=1 WHERE user_id='$uid'");
+							
 							//set the samba password
-							//this is the set of 4 attributes that smbpasswd actually creates
 							$entry['sambantpassword'] = strtoupper(hash('md4',iconv('UTF-8','UTF-16LE',$password)));
 							$entry['sambapasswordhistory'] = '0000000000000000000000000000000000000000000000000000000000000000';
 							$entry['sambapwdlastset'] = time();
 							$entry['sambaacctflags'] = '[U          ]';
+							
 							//set the password
 							$entry['userpassword'] = "{SHA}".base64_encode(pack("H*",sha1($password)));
 							$con = LDAPconnect()[0];
 							$res = ldap_mod_replace($con,'uid='.$uid.",ou=users,".LDAP_TREE,$entry);
+							
 							if (!$res) {
 								$err_des = ldap_error($con);
 								$err_num = ldap_errno($con);
@@ -71,21 +75,25 @@ if (isset($_GET['p'])) {
 			}
 			else {
 				$err = [];
-				if (isset($_GET['man'])) {
-					$man = '&man';
-				}
+			}
+			//ad hoc password reset is identified with an empty GET parameter
+			if (isset($_GET['man'])) {
+				$man = '&man';
+			}
+			else {
+				$man = '';
 			}
 ?>
 			<h1><?=set_password_header?></h1>
 			<p><?=set_password_requirements?></p>
 			<form id="password" enctype="application/x-www-form-urlencoded" method="post" action="<?=$_SERVER['PHP_SELF'].'?p='.$_GET['p'].$man?>">
 				<div><label for="password"><?=password?></label></div>
-				<div><input name="password" type="password" class="" value="" /></div>
+				<div><input name="password" type="password" value="" /></div>
 				
 				<div><label for="password_c"><?=repeat?> <?=password?></label></div>
-				<div><input name="password_c" type="password" class="" value="" /></div>
+				<div><input name="password_c" type="password" value="" /></div>
 			
-				<input name="submit" type="submit" class="" value="<?=create?>" />
+				<input name="submit" type="submit" value="<?=create?>" />
 <?php
 	printMessages($err);
 	echo <<<EOD

@@ -4,7 +4,7 @@ esbart is an LDAP web frontend written in PHP.
 
 ## Description
 
-esbart allows any organization to manage an LDAP directory. It does not handle transactions using LDIF files, instead, it presents an oriented interface based upon the *domain controller* functionalities commonly related to user accounts, their credentials, and the groups.
+esbart allows any organization to manage an LDAP directory. It does not handle transactions using LDIF files, instead, it presents an oriented interface based upon the *domain controller* functionalities commonly related to user accounts and their credentials, groups, etc.
 
 The software will also deliver one-time password change tokens via email to streamline the unattended credential management, and also instructional emails to set-up and welcome users.
 
@@ -55,7 +55,7 @@ sudo -u apache /bin/php -f /path/to/cron.php
 
 The so-called `config.php` file also allows configuring as per the below settings, amongst many others:
 
-| key | description |
+| Setting | Description |
 | - | - |
 | `MODE` | Switches from *light* to *dark* CSS style |
 | `LOGGING` | Activates a pair of access logfiles under *log/* |
@@ -65,18 +65,18 @@ The so-called `config.php` file also allows configuring as per the below setting
 
 The software can be easily localised with language files under *locale/*.
 
-esbart will look after the Samba credentials as well (`sambaNTpassword`), which will be synced to the main password (`userPassword`).
+esbart will look after the Samba credentials as well, `sambaNTpassword`, which will be synced to the main password `userPassword`.
 
 ## Screenshots
 
-![User list](/screenshots/user-list.png?raw=true "User list")
-![Create user - assisted mode](/screenshots/create-user-assisted.png?raw=true "Create user - assisted mode")
+![User list](/screenshots/list-user.png?raw=true "User list")
+![Create user - assisted mode](/screenshots/add-user-assisted.png?raw=true "Create user - assisted mode")
 
-The previous screenshot shows a simplified form (called *assisted mode*) that is intended for user creation by those not used to IT procedures. It sorts out the username automatically matching and specific format and dispatches the password creation email request on the fly.
+The previous screenshot shows a simplified form (called *assisted mode*) that is intended for user creation by those not used to IT procedures. It sorts out the user name automatically matching an specific format and dispatches the password creation email request on the fly.
 
-![Edit user](/screenshots/edit-user.png?raw=true "Edit user")
-![Group list](/screenshots/group-list.png?raw=true "Group list")
-![Set password](/screenshots/set-password.png?raw=true "Set password")
+![Edit user](/screenshots/edit.png?raw=true "Edit user")
+![Group list](/screenshots/list-group.png?raw=true "Group list")
+![Set password](/screenshots/password.png?raw=true "Set password")
 
 ## License
 

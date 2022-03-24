@@ -302,7 +302,7 @@ function sendOneTimeSetPasswordEmail($uid,$manual) {
 
 function sendWelcomeEmail($uid) {
 	$pd = getPersonalData($uid);
-	$subject = 'El teu compte a Eixam ja és actiu';
+	$subject = 'El teu compte a '.FROM_NAME.' ja és actiu';
 	
 	$headers[] = 'From: '.FROM_NAME.' <'.FROM_ADDR.'>';
 	$headers[] = 'Reply-To: '.FROM_REPLYTO;
@@ -320,7 +320,7 @@ function sendWelcomeEmail($uid) {
 </ul>
 <p>".account_ready_explanation."</p>
 <p></p>
-<p>".salut."</p>
+<p>".cheers."</p>
 <p>".FROM_NAME."</p>
 </html>";
 
