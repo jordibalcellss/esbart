@@ -18,28 +18,25 @@ if ($pd = getPersonalData($_GET['object'])) {
 				<div><label for="loginshell"><?=shell?></label></div>
 				<div><input name="loginshell" type="text" value="<?=$pd[5]?>" /></div>
 <?php
-if ($bind) {
-	echo "\n";
-	echo "				<div><label for=\"groups\">".member_of.":</label></div>\n";
-	echo "				<div><select name=\"groups[]\" multiple>\n";
-	echo "					<option value=\"\"></option>\n";
-	//get the groups the user is a member of
-	$current_groups = getUserMembership($pd[2]);
-	//out of the total assignable groups
-	$groups = getAssignableGroups();
-	foreach ($groups as $group) {
-		//is the group already assigned to the user?
-		if (array_search($group,$current_groups) !== false) {
-			echo "					<option value=\"$group\" selected>$group</option>\n";
-		}
-		else {
-			echo "					<option value=\"$group\">$group</option>\n";
-		}
+echo "\n";
+echo "				<div><label for=\"groups\">".member_of.":</label></div>\n";
+echo "				<div><select name=\"groups[]\" multiple>\n";
+echo "					<option value=\"\"></option>\n";
+//get the groups the user is a member of
+$current_groups = getUserMembership($pd[2]);
+//out of the total assignable groups
+$groups = getAssignableGroups();
+foreach ($groups as $group) {
+	//is the group already assigned to the user?
+	if (array_search($group,$current_groups) !== false) {
+		echo "					<option value=\"$group\" selected>$group</option>\n";
 	}
-	echo "				</select></div>\n";
+	else {
+		echo "					<option value=\"$group\">$group</option>\n";
+	}
 }
-ldap_close($con);
-?>			
+echo "				</select></div>\n";
+?>		
 				<input name="submit" type="submit" value="<?=save?>" />
 <?php
 	printMessages($err);

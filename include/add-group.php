@@ -6,7 +6,7 @@ else {
 	//prepare entry
 	$entry['objectclass'][0] = 'top';
 	$entry['objectclass'][1] = 'posixGroup';
-	$entry['gidnumber'] = LDAPgetNextId($con,'group');
+	$entry['gidnumber'] = getNextId($con,'group');
 			
 	//add entry
 	$res_entry = @ldap_add($con,'cn='.trim($_POST['name']).",ou=groups,".LDAP_TREE,$entry);

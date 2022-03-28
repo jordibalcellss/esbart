@@ -1,0 +1,9 @@
+body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; text-align: left; margin: 50px; padding: 0; }
+
+ul#menu { margin-bottom: 35px; }
+
+form #messages { margin-top: 15px; line-height: 18px; }
+
+input.shorter { width: 135px; }
+
+div.not-editable-form-item { margin-bottom: 11px; }

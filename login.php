@@ -62,10 +62,10 @@ else {
 			<h1><?=TITLE?></h1>
 			<form id="login" enctype="application/x-www-form-urlencoded" method="post" action="<?=$_SERVER['PHP_SELF']?>">
 				<div><label for="username"><?=username?></label></div>
-				<div><input name="username" type="text" value="" /></div>
+				<div><input name="username" type="text" class="shorter" value="" /></div>
 				
 				<div><label for="password"><?=password?></label></div>
-				<div><input name="password" type="password" value="" /></div>
+				<div><input name="password" type="password" class="shorter" value="" /></div>
 			
 				<input name="envia" type="submit" value="<?=login_submit?>" />
 <?php

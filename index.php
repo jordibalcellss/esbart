@@ -12,11 +12,8 @@ if (!isset($_SESSION['id'])) {
 require_once 'include/functions.php';
 include 'include/template/head.php';
 
-$LDAPcon = LDAPconnect();
-$con = $LDAPcon[0];
-$bind = $LDAPcon[1];
-
-if ($_POST && $bind) {
+if ($_POST) {
+	$con = LDAPconnect()[0];
 	if ($_GET['action'] == 'password') {
 		include('include/password.php');
 	}
@@ -32,6 +29,7 @@ if ($_POST && $bind) {
 	else if ($_GET['action'] == 'edit') {
 		include('include/edit.php');
 	}
+	ldap_close($con);
 }
 else {
 	$err = [];
@@ -69,11 +67,10 @@ if (isset($_GET['action']) && isset($_GET['object'])) {
 	else if ($_GET['action'] == 'add' && $_GET['object'] == 'user' && $_GET['mode'] == 'manual') {
 		include('include/add-user-form.php');
 	}
-	else if ($_GET['action'] == 'list' && $_GET['object'] == 'user') {
-		include('include/list-user.php');
-	}
-	else if ($_GET['action'] == 'list' && $_GET['object'] == 'group') {
-		include('include/list-group.php');
+	else if ($_GET['action'] == 'list') {
+		$con = LDAPconnect()[0];
+		include('include/list-'.$_GET['object'].'.php');
+		ldap_close($con);
 	}
 	else if ($_GET['action'] == 'edit') {
 		include('include/edit-form.php');

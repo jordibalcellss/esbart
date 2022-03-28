@@ -20,18 +20,15 @@ if (!HIDE_SECOND_SURNAME) {
 				<div><label for="email"><?=email?>*</label></div>
 				<div><input name="email" type="text" value="" /></div>
 <?php
-if ($bind) {
-	echo "\n";
-	echo "				<div><label for=\"groups\">".member_of.":</label></div>\n";
-	echo "				<div><select name=\"groups[]\" multiple>\n";
-	echo "					<option value=\"\"></option>\n";
-	$groups = getAssignableGroups();
-	foreach ($groups as $group) {
-		echo "					<option value=\"$group\">$group</option>\n";
-	}
-	echo "				</select></div>\n";
+echo "\n";
+echo "				<div><label for=\"groups\">".member_of.":</label></div>\n";
+echo "				<div><select name=\"groups[]\" multiple>\n";
+echo "					<option value=\"\"></option>\n";
+$groups = getAssignableGroups();
+foreach ($groups as $group) {
+	echo "					<option value=\"$group\">$group</option>\n";
 }
-ldap_close($con);
+echo "				</select></div>\n";
 ?>			
 				<input name="submit" type="submit" value="<?=add?>" />
 <?php

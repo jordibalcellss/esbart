@@ -4,7 +4,7 @@ esbart is an LDAP web frontend written in PHP.
 
 ## Description
 
-esbart allows any organization to manage an LDAP directory. It does not handle transactions using LDIF files, instead, it presents an oriented interface based upon the *domain controller* functionalities commonly related to user accounts and their credentials, groups, etc.
+esbart allows any organization to easily manage an LDAP directory. It does not handle transactions using LDIF files, instead, it presents an oriented interface based on the *domain controller* functionalities commonly related to user accounts and their credentials, groups, etc.
 
 The software will also deliver one-time password change tokens via email to streamline the unattended credential management, and also instructional emails to set-up and welcome users.
 

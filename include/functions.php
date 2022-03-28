@@ -7,7 +7,17 @@ class DB extends PDO {
 	}
 }
 
+function LDAPconnect() {
+	$con = ldap_connect(LDAP_HOST);
+	ldap_set_option($con,LDAP_OPT_PROTOCOL_VERSION,3);
+	if ($con) {
+		$bind = ldap_bind($con,LDAP_USER,LDAP_PASS);
+	}
+	return array($con,$bind);
+}
+
 function printMessages($err) {
+	//displays HTML form error messages
 	if (count($err)) {
 		echo '			<div id="messages">'."\n";
 		echo '				'.implode('<br />',$err)."\n";
@@ -29,7 +39,12 @@ function writeLog($filename,$message) {
 	}
 }
 
-function LDAPgetNextId($con,$entity) {
+function sortByName($a,$b) {
+		return $a['cn'] > $b['cn'];
+}
+
+function getNextId($con,$entity) {
+	//returns next available ID for either users or groups
 	if ($entity == 'user') {
 		$attr = 'uidnumber';
 	}
@@ -46,22 +61,14 @@ function LDAPgetNextId($con,$entity) {
 		return max($numbers) + 1;
 	}
 	else {
+		//not likely to happen, but using the same ID schema across entities
 		return LDAP_PRIMARY_GROUP_ID + 1;
 	}
 }
 
-function LDAPgetSambaSID($uidnumber) {
+function getSambaSID($uidnumber) {
 	$samba_id = $uidnumber * 2 + 1000;
 	return LDAP_SAMBA_SID.'-'.$samba_id;
-}
-
-function LDAPconnect() {
-	$con = ldap_connect(LDAP_HOST);
-	ldap_set_option($con,LDAP_OPT_PROTOCOL_VERSION,3);
-	if ($con) {
-		$bind = ldap_bind($con,LDAP_USER,LDAP_PASS);
-	}
-	return array($con,$bind);
 }
 
 function getPersonalData($uid) {
@@ -73,6 +80,8 @@ function getPersonalData($uid) {
 	 * 3 email
 	 * 4 home directory
 	 * 5 shell
+	 * 
+	 * returns false on failure
 	 */
 	$con = LDAPconnect();
 	$result = @ldap_read($con[0],"uid=$uid,ou=users,".LDAP_TREE,"(cn=*)",array('cn','uid','email','homedirectory','loginshell'));
@@ -84,25 +93,26 @@ function getPersonalData($uid) {
 		$pd[3] = $entries[0]['email'][0];
 		$pd[4] = $entries[0]['homedirectory'][0];
 		$pd[5] = $entries[0]['loginshell'][0];
+		ldap_close($con[0]);
 		return $pd;
 	}
 	else {
+		ldap_close($con[0]);
 		return false;
 	}
-	ldap_close($con[0]);
 }
 
 function accountHasEmail($uid) {
 	$con = LDAPconnect();
 	$result = ldap_read($con[0],"uid=$uid,ou=users,".LDAP_TREE,"(cn=*)",array('email'));
 	$entries = ldap_get_entries($con[0],$result);
+	ldap_close($con[0]);
 	if (strlen($entries[0]['email'][0]) > 0) {
 		return true;
 	}
 	else {
 		return false;
 	}
-	ldap_close($con[0]);
 }
 
 function accountIsEnabled($uid) {
@@ -110,16 +120,17 @@ function accountIsEnabled($uid) {
 	$con = LDAPconnect();
 	$result = ldap_read($con[0],"uid=$uid,ou=users,".LDAP_TREE,"(cn=*)",array('userpassword','sambantpassword'));
 	$entries = ldap_get_entries($con[0],$result);
+	ldap_close($con[0]);
 	if (isset($entries[0]['userpassword'][0]) || isset($entries[0]['sambantpassword'][0])) {
 		return true;
 	}
 	else if (!isset($entries[0]['userpassword'][0]) && !isset($entries[0]['sambantpassword'][0])){
 		return false;
 	}
-	ldap_close($con[0]);
 }
 
 function disableAccount($uid) {
+	//removes userpassword and/or sambantpassword attributes
 	if (getPersonalData($uid)) {
 		$con = LDAPconnect();
 		$result = ldap_read($con[0],"uid=$uid,ou=users,".LDAP_TREE,"(cn=*)",array('userpassword','sambantpassword'));
@@ -130,7 +141,7 @@ function disableAccount($uid) {
 		if (isset($entries[0]['sambantpassword'][0])) {
 			ldap_mod_del($con[0],"uid=$uid,ou=users,".LDAP_TREE,array('sambantpassword' => array()));
 		}
-		//$result = ldap_mod_del($con[0],"uid=$uid,ou=users,".LDAP_TREE,array('userpassword' => array(),'sambantpassword' => array()));
+		ldap_close($con[0]);
 		return true;
 	}
 	else {
@@ -139,7 +150,7 @@ function disableAccount($uid) {
 }
 
 function addUserToGroups($uid,$groups) {
-	//expects an array of groups
+	//expects an array of group names
 	$con = LDAPconnect();
 	$entry['memberuid'] = $uid;
 	$fail = false;
@@ -157,7 +168,7 @@ function addUserToGroups($uid,$groups) {
 }
 
 function removeUserFromGroups($uid,$groups) {
-	//expects an array of groups
+	//expects an array of group names
 	$con = LDAPconnect();
 	$entry['memberuid'] = $uid;
 	$fail = false;
@@ -223,8 +234,8 @@ function getUserMembership($uid) {
 
 function trimSplitFormatName($name) {
 	/* 
-	 * catalan naming customs may include composite two-word names or even 
-	 * composite surnames with a preposition in front of them. We'll select
+	 * some european naming customs (like the catalan one) may include composite two-word
+	 * names or even composite surnames with a preposition in front of them. We'll select
 	 * only one word to form up the username.
 	 */
 	if (strpos($name,' ') !== false) {
@@ -249,6 +260,13 @@ function trimSplitFormatSurname($name) {
 }
 
 function sendOneTimeSetPasswordEmail($uid,$manual) {
+	/*
+	 * sends an email with a link to reset the password
+	 * if 'manual' GET parameter is set, the welcome email template is not used
+	 * and the user is presented with a generic password reset email instead
+	 * 
+	 * returns false on failure
+	 */
 	if ($pd = getPersonalData($uid)) {
 		$headers[] = 'From: '.FROM_NAME.' <'.FROM_ADDR.'>';
 		$headers[] = 'MIME-Version: 1.0';
@@ -257,6 +275,7 @@ function sendOneTimeSetPasswordEmail($uid,$manual) {
 		$headers[] = 'X-Mailer: PHP/'.phpversion();
 		$headers[] = 'X-PHP-Originating-Script: '.TITLE;
 	
+		//create a random string token
 		$pass = bin2hex(random_bytes(8));
 		$url = URL."/set.php?p=$pass";
 	
@@ -282,13 +301,18 @@ function sendOneTimeSetPasswordEmail($uid,$manual) {
 </html>";
 	}
 
-		$res_mail = mail($pd[3],$subject,$message,implode("\r\n",$headers));
+		$result_mail = mail($pd[3],$subject,$message,implode("\r\n",$headers));
 
+		/*
+		 * insert the token into the database
+		 * the token will be tied to a username and expired by cron.php
+		 * in case it is overlooked or rejected
+		 */
 		$db = new DB();
 		$stmt = $db->prepare('INSERT INTO pw_set_requests (pass,user_id) VALUES (:pass,:user_id)');
-		$res = $stmt->execute(array(':pass' => $pass,':user_id' => $uid));
+		$result_db = $stmt->execute(array(':pass' => $pass,':user_id' => $uid));
 	
-		if ($res_mail && $res) {
+		if ($result_mail && $result_db) {
 			return true;
 		}
 		else {
@@ -301,6 +325,13 @@ function sendOneTimeSetPasswordEmail($uid,$manual) {
 }
 
 function sendWelcomeEmail($uid) {
+	/*
+	 * sends the welcome email
+	 * called after the password is successfully set in the last steps
+	 * of the user creation process
+	 * 
+	 * returns false on failure
+	 */
 	$pd = getPersonalData($uid);
 	$subject = 'El teu compte a '.FROM_NAME.' ja és actiu';
 	
@@ -324,7 +355,12 @@ function sendWelcomeEmail($uid) {
 <p>".FROM_NAME."</p>
 </html>";
 
-	mail($pd[3],$subject,$message,implode("\r\n",$headers));
+	if (mail($pd[3],$subject,$message,implode("\r\n",$headers))) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 ?>

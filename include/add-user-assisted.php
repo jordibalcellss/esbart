@@ -30,7 +30,7 @@ else {
 		}
 		if (!isset($err)) {
 			//prepare entry
-			$uidnumber = LDAPgetNextId($con,'user');
+			$uidnumber = getNextId($con,'user');
 			$entry['objectclass'][0] = 'top';
 			$entry['objectclass'][1] = 'account';
 			$entry['objectclass'][2] = 'posixAccount';
@@ -44,7 +44,7 @@ else {
 			$entry['homedirectory'] = '/home/'.$name_1_f.'.'.$name_2_f.$name_3_f;
 			$entry['loginshell'] = '/bin/false';
 			$entry['emailaddress'] = trim($_POST['email']);
-			$entry['sambasid'] = LDAPgetSambaSID($uidnumber);
+			$entry['sambasid'] = getSambaSID($uidnumber);
 			
 			//add entry
 			$res_entry = ldap_add($con,'uid='.$name_1_f.'.'.$name_2_f.$name_3_f.",ou=users,".LDAP_TREE,$entry);

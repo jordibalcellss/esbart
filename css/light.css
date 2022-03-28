@@ -1,8 +1,6 @@
-body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; text-align: left; margin: 50px; padding: 0; color: #222; }
+body { color: #222; }
 
 a { color: #27f; }
-
-ul#menu { margin-bottom: 35px; }
 
 input[type="text"], input[type="password"], select {
 	padding: 3px 3px 3px 5px;
@@ -17,9 +15,4 @@ input[type="submit"] {
 	font-weight: 800;
 }
 
-form #messages { margin-top: 15px; line-height: 18px; }
-
-div.not-editable-form-item {
-	margin-bottom: 11px;
-	color: #888;
-}
+div.not-editable-form-item { color: #888; }
