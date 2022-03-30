@@ -6,19 +6,19 @@
 			</ul>
 			<form id="user" enctype="application/x-www-form-urlencoded" method="post" action="index.php?action=add&object=user&mode=manual">
 				<div><label for="name"><?=name?>*</label></div>
-				<div><input name="name" type="text" value="" /></div>
+				<div><input name="name" type="text" class="short" value="" /></div>
 				
 				<div><label for="username"><?=username?>*</label></div>
-				<div><input name="username" type="text" value="" /></div>
+				<div><input name="username" type="text" class="short" value="" /></div>
 				
 				<div><label for="email"><?=email?></label></div>
 				<div><input name="email" type="text" value="" /></div>
 				
 				<div><label for="homedirectory"><?=home_directory?></label></div>
-				<div><input name="homedirectory" type="text" value="" /></div>
+				<div><input name="homedirectory" type="text" class="short" value="" /></div>
 				
 				<div><label for="loginshell"><?=shell?></label></div>
-				<div><input name="loginshell" type="text" value="/bin/false" /></div>
+				<div><input name="loginshell" type="text" class="short" value="/bin/false" /></div>
 <?php
 echo "\n";
 echo "				<div><label for=\"groups\">".member_of.":</label></div>\n";

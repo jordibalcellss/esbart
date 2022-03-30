@@ -7,16 +7,16 @@ if ($pd = getPersonalData($_GET['object'])) {
 				<div class="not-editable-form-item"><?=$pd[2]?></div>
 				
 				<div><label for="name"><?=name?></label></div>
-				<div><input name="name" type="text" value="<?=$pd[1]?>" /></div>
+				<div><input name="name" type="text" class="short" value="<?=$pd[1]?>" /></div>
 				
 				<div><label for="email"><?=email?></label></div>
 				<div><input name="email" type="text" value="<?=$pd[3]?>" /></div>
 				
 				<div><label for="homedirectory"><?=home_directory?></label></div>
-				<div><input name="homedirectory" type="text" value="<?=$pd[4]?>" /></div>
+				<div><input name="homedirectory" type="text" class="short" value="<?=$pd[4]?>" /></div>
 				
 				<div><label for="loginshell"><?=shell?></label></div>
-				<div><input name="loginshell" type="text" value="<?=$pd[5]?>" /></div>
+				<div><input name="loginshell" type="text" class="short" value="<?=$pd[5]?>" /></div>
 <?php
 echo "\n";
 echo "				<div><label for=\"groups\">".member_of.":</label></div>\n";

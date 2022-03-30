@@ -9,10 +9,10 @@ if ($pd = getPersonalData($_GET['object'])) {
 				<div class="not-editable-form-item"><?=$_GET['object']?></div>
 				
 				<div><label for="password"><?=password?></label></div>
-				<div><input name="password" type="password" value="" /></div>
+				<div><input name="password" type="password" class="short" value="" /></div>
 				
 				<div><label for="password_c"><?=repeat?> <?=password?></label></div>
-				<div><input name="password_c" type="password" value="" /></div>
+				<div><input name="password_c" type="password" class="short" value="" /></div>
 			
 				<input name="submit" type="submit" value="<?=create?>" />
 <?php

@@ -4,6 +4,6 @@ ul#menu { margin-bottom: 35px; }
 
 form #messages { margin-top: 15px; line-height: 18px; }
 
-input.shorter { width: 135px; }
+input.short { width: 135px; }
 
 div.not-editable-form-item { margin-bottom: 11px; }

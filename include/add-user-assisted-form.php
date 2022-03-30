@@ -7,14 +7,14 @@
 			</ul>
 			<form id="user" enctype="application/x-www-form-urlencoded" method="post" action="index.php?action=add&object=user&mode=assisted">
 				<div><label for="name_1"><?=name?>*</label></div>
-				<div><input name="name_1" type="text" value="" /></div>
+				<div><input name="name_1" type="text" class="short" value="" /></div>
 				
 				<div><label for="name_2"><?=surname?>*</label></div>
-				<div><input name="name_2" type="text" value="" /></div>
+				<div><input name="name_2" type="text" class="short" value="" /></div>
 <?php
 if (!HIDE_SECOND_SURNAME) {
 	echo "				<div><label for=\"name_3\">".surname_2."</label></div>\n";
-	echo "				<div><input name=\"name_3\" type=\"text\" value=\"\" /></div>\n";
+	echo "				<div><input name=\"name_3\" type=\"text\" class=\"short\" value=\"\" /></div>\n";
 }
 ?>			
 				<div><label for="email"><?=email?>*</label></div>
