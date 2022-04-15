@@ -1,4 +1,5 @@
 <?php
+
 define("username","nom d'usuari");
 define("password","contrasenya");
 define("login_submit","entra");
@@ -98,4 +99,5 @@ define("account_ready_advice","");
 define("account_ready_server","");
 define("account_ready_explanation","");
 define("account_ready_help","Si tens algun problema amb algun dels serveis, pots enviar un correu a ".FROM_REPLYTO.".");
+
 ?>

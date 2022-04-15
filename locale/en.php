@@ -1,4 +1,5 @@
 <?php
+
 define("username","login");
 define("password","password");
 define("login_submit","login");
@@ -98,4 +99,5 @@ define("account_ready_advice","");
 define("account_ready_server","");
 define("account_ready_explanation","");
 define("account_ready_help","If you need help with any service, you can reach us at ".FROM_REPLYTO.".");
+
 ?>

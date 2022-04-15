@@ -1,6 +1,7 @@
 <?php
-require_once 'config.php';
-require_once 'locale/'.LOCALE.'.php';
+
+require 'config.php';
+require 'locale/'.LOCALE.'.php';
 ini_set('error_reporting',ERROR_REPORTING);
 ini_set('display_errors',DISPLAY_ERRORS);
 
@@ -9,25 +10,25 @@ if (!isset($_SESSION['id'])) {
 	header("Location: login.php");
 }
 
-require_once 'include/functions.php';
-include 'include/template/head.php';
+require 'include/functions.php';
+require 'include/template/head.php';
 
 if ($_POST) {
 	$con = LDAPconnect()[0];
 	if ($_GET['action'] == 'password') {
-		include('include/password.php');
+		require('include/password.php');
 	}
 	else if ($_GET['action'] == 'add' && $_GET['object'] == 'user' && $_GET['mode'] == 'manual') {
-		include('include/add-user.php');
+		require('include/add-user.php');
 	}
 	else if ($_GET['action'] == 'add' && $_GET['object'] == 'user' && $_GET['mode'] == 'assisted') {
-		include('include/add-user-assisted.php');
+		require('include/add-user-assisted.php');
 	}
 	else if ($_GET['action'] == 'add' && $_GET['object'] == 'group') {
-		include('include/add-group.php');
+		require('include/add-group.php');
 	}
 	else if ($_GET['action'] == 'edit') {
-		include('include/edit.php');
+		require('include/edit.php');
 	}
 	ldap_close($con);
 }
@@ -56,29 +57,30 @@ else {
 
 if (isset($_GET['action']) && isset($_GET['object'])) {
 	if ($_GET['action'] == 'password') {
-		include('include/password-form.php');
+		require('include/password-form.php');
 	}
 	else if ($_GET['action'] == 'add' && $_GET['object'] == 'user' && $_GET['mode'] == 'assisted') {
-		include('include/add-user-assisted-form.php');
+		require('include/add-user-assisted-form.php');
 	}
 	else if ($_GET['action'] == 'add' && $_GET['object'] == 'group') {
-		include('include/add-group-form.php');
+		require('include/add-group-form.php');
 	}
 	else if ($_GET['action'] == 'add' && $_GET['object'] == 'user' && $_GET['mode'] == 'manual') {
-		include('include/add-user-form.php');
+		require('include/add-user-form.php');
 	}
 	else if ($_GET['action'] == 'list') {
 		$con = LDAPconnect()[0];
-		include('include/list-'.$_GET['object'].'.php');
+		require('include/list-'.$_GET['object'].'.php');
 		ldap_close($con);
 	}
 	else if ($_GET['action'] == 'edit') {
-		include('include/edit-form.php');
+		require('include/edit-form.php');
 	}
 	else if ($_GET['action'] == 'disable') {
-		include('include/disable.php');
+		require('include/disable.php');
 	}
 }
 
-include 'include/template/base.php';
+require 'include/template/base.php';
+
 ?>

@@ -1,6 +1,7 @@
 <?php
-require_once 'config.php';
-require_once 'locale/'.LOCALE.'.php';
+
+require 'config.php';
+require 'locale/'.LOCALE.'.php';
 ini_set('error_reporting',ERROR_REPORTING);
 ini_set('display_errors',DISPLAY_ERRORS);
 
@@ -14,8 +15,8 @@ if (isset($_GET['action'])) {
 ob_start();
 //buffers output until end of page or ob_ functions
 
-require_once 'include/functions.php';
-include 'include/template/head-login.php';
+require 'include/functions.php';
+require 'include/template/head-login.php';
 
 if ($_POST) {
 	$con = ldap_connect(LDAP_HOST);
@@ -76,4 +77,5 @@ else {
 	</body>
 </html>
 EOD;
+
 ?>

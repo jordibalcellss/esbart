@@ -1,11 +1,12 @@
 <?php
-require_once 'config.php';
-require_once 'locale/'.LOCALE.'.php';
+
+require 'config.php';
+require 'locale/'.LOCALE.'.php';
 ini_set('error_reporting',ERROR_REPORTING);
 ini_set('display_errors',DISPLAY_ERRORS);
 
-require_once 'include/functions.php';
-include 'include/template/head-login.php';
+require 'include/functions.php';
+require 'include/template/head-login.php';
 
 if (isset($_GET['p'])) {
 	$db = new DB();

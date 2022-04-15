@@ -1,4 +1,5 @@
 <?php
+
 if (strlen($_POST['password']) == 0 || strlen($_POST['password_c']) == 0) {
 	$err[] = both_fields_required;
 }
@@ -45,4 +46,5 @@ else {
 		}
 	}
 }
+
 ?>

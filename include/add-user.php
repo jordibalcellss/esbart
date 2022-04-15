@@ -1,4 +1,5 @@
 <?php
+
 if (strlen($_POST['name']) == 0 || strlen($_POST['username']) == 0) {
 	$err[] = name_username_cannot_be_empty;
 }
@@ -55,4 +56,5 @@ else {
 		}
 	}
 }
+
 ?>

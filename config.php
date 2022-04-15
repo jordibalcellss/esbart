@@ -1,4 +1,5 @@
 <?php
+
 //esbart
 define('URL','http://localhost/esbart');
 define('TITLE','esbart');
@@ -32,4 +33,5 @@ define('LDAP_SAMBA_SID','S-1-5-21-1123581321-1123581321-1123581321');
 define('DISPLAY_ERRORS',true);
 define('ERROR_REPORTING',E_ALL);
 define('TIME_LIMIT',30);
+
 ?>

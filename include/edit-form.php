@@ -1,4 +1,5 @@
 <?php
+
 if ($pd = getPersonalData($_GET['object'])) {
 ?>
 			<h2><?=edit?> <?=user?></h2>
@@ -45,4 +46,5 @@ echo "				</select></div>\n";
 else {
 	echo "<p>".user_does_not_exist."</p>";
 }
+
 ?>

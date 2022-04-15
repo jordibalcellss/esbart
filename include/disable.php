@@ -1,4 +1,5 @@
 <?php
+
 if (disableAccount($_GET['object'])) {
 	echo "<p>".$_GET['object']." ".was_disabled."</p>";
 	echo "<p>".reactivate_pw_request_necessary."</p>";
@@ -6,4 +7,5 @@ if (disableAccount($_GET['object'])) {
 else {
 	echo "<p>".user_does_not_exist."</p>";
 }
+
 ?>

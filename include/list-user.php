@@ -1,4 +1,5 @@
 <?php
+
 $result = ldap_search($con,'ou=users,'.LDAP_TREE,"(cn=*)",array('cn','email','uidnumber','uid'));
 $entries = ldap_get_entries($con,$result);
 //sort alphabetically
@@ -39,4 +40,5 @@ for ($i = 1; $i < count($entries); $i++) {
 }
 echo "			</table>\n";
 echo "			<p>".there_are." ".ldap_count_entries($con,$result)." ".users."</p>\n";
+
 ?>

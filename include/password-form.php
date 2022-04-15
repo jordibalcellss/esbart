@@ -1,4 +1,5 @@
 <?php
+
 if ($pd = getPersonalData($_GET['object'])) {
 	if (isset($_GET['noemail'])) {
 ?>
@@ -28,4 +29,5 @@ if ($pd = getPersonalData($_GET['object'])) {
 else {
 	echo "<p>".user_does_not_exist."</p>";
 }
+
 ?>

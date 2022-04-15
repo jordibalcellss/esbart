@@ -1,4 +1,5 @@
 <?php
+
 if (strlen($_POST['name_1']) == 0 || strlen($_POST['name_2']) == 0 || strlen($_POST['email']) == 0) {
 	$err[] = user_add_assisted_name_surname_email_required;
 }
@@ -69,4 +70,5 @@ else {
 		}
 	}
 }
+
 ?>
