@@ -1,5 +1,5 @@
 -- esbart.sql
--- one time tokens database
+-- one time password tokens database
 
 CREATE DATABASE esbart;
 USE esbart;
