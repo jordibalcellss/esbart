@@ -276,7 +276,7 @@ function sendOneTimeSetPasswordEmail($uid,$manual) {
 		$headers[] = 'X-PHP-Originating-Script: '.TITLE;
 	
 		//create a random string token
-		$pass = bin2hex(random_bytes(8));
+		$pass = bin2hex(openssl_random_pseudo_bytes(8));
 		$url = URL."/set.php?p=$pass";
 	
 		if ($manual) {
