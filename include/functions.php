@@ -40,7 +40,7 @@ function writeLog($filename,$message) {
 }
 
 function sortByName($a,$b) {
-		return $a['cn'] > $b['cn'];
+	return strtolower($a['cn'][0]) > strtolower($b['cn'][0]);
 }
 
 function getNextId($con,$entity) {
