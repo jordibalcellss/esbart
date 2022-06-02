@@ -190,7 +190,7 @@ function getAssignableGroups() {
 	ldap_close($con[0]);
 	$groups = array();
 	for ($i = 0; $i < $entries['count']; $i++) {
-		if (array_search($entries[$i]['cn'][0],explode(',',LDAP_GROUP_EXCLUSIONS) === false)) {
+		if (array_search($entries[$i]['cn'][0],LDAP_GROUP_EXCLUSIONS) === false) {
 			$groups[] = $entries[$i]['cn'][0];
 		}
 	}
