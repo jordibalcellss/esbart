@@ -26,7 +26,7 @@ define('LDAP_HOST','localhost');
 define('LDAP_PASS','testldap');
 define('LDAP_AUTH_GROUP','cn=tech,ou=groups,'.LDAP_TREE);
 define('LDAP_PRIMARY_GROUP_ID','2001');
-define('LDAP_GROUP_EXCLUSIONS',array('everybody','workshop'));
+define('LDAP_GROUP_EXCLUSIONS','everybody,workshop');
 define('LDAP_SAMBA_SID','S-1-5-21-1123581321-1123581321-1123581321');
 
 //PHP
