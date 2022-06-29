@@ -3,16 +3,16 @@ body { color: #222; }
 a { color: #27f; }
 
 input[type="text"], input[type="password"], select {
-	padding: 3px 3px 3px 5px;
-	margin-top: 4px;
-	margin-bottom: 10px;
+  padding: 3px 3px 3px 5px;
+  margin-top: 4px;
+  margin-bottom: 10px;
 }
 
 input[type="submit"] {
-	padding: 2px 10px;
-	margin-top: 10px;
-	color: #333;
-	font-weight: 800;
+  padding: 2px 10px;
+  margin-top: 10px;
+  color: #333;
+  font-weight: 800;
 }
 
 div.not-editable-form-item { color: #888; }

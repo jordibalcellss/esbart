@@ -4,7 +4,7 @@ esbart is an LDAP web frontend written in PHP.
 
 ## Description
 
-esbart allows any organisation to easily manage an LDAP directory. It does not handle transactions using LDIF files, instead, it provides an oriented interface based on the *domain controller* functionalities related to user accounts, their credentials, memberships, etc.
+esbart allows any organisation to easily look after an LDAP directory. It provides an oriented interface based on typical  *domain controller* functionalities related to user accounts, their credentials and memberships, etc.
 
 The software will also deliver one-time password change tokens via email to streamline unattended credential management, and also instructional emails to set-up and welcome users.
 
@@ -17,21 +17,19 @@ The software will also deliver one-time password change tokens via email to stre
 * A MySQL/MariaDB database
 * A Mail Transmission Agent
 * PHP modules
-	* php-mbstring
-	* php-ldap
-	
+  * php-mbstring
+  * php-ldap
+
 The database allows storing password change keys and expire them accordingly, and the MTA dispatches the emails sent by the system.
 
 ### Installing
 
-For now, there is no automated script to install the software.
-
 #### MariaDB
 
-The single-table database can be created pushing `esbart.sql` to MariaDB
+The single-table database can be created pushing `database.sql` to MariaDB
 
 ```
-mysql < esbart.sql
+mysql < database.sql
 ```
 
 The configuration keys in regards of the database connection can be found in `config.php`, MariaDB section.
@@ -53,7 +51,7 @@ sudo -u apache /bin/php -f /path/to/cron.php
 
 ### Configuration
 
-The so-called `config.php` file also allows configuring as per the below settings, amongst many others:
+The so-called `config.php` file also allows configuring as per the below settings, amongst others:
 
 | Setting | Description |
 | - | - |
@@ -72,7 +70,7 @@ esbart will look after the Samba credentials as well, `sambaNTpassword`, which w
 ![User list](/screenshots/list-user.png?raw=true "User list")
 ![Create user - assisted mode](/screenshots/add-user-assisted.png?raw=true "Create user - assisted mode")
 
-The previous screenshot shows a simplified form (called *assisted mode*) that is intended for user creation by those not used to IT procedures. It sorts out the user name automatically matching an specific format and dispatches the password creation email request on the fly.
+The previous screenshot shows a simplified user creation form called *assisted mode*. It sorts out the user name automatically matching an specific format and dispatches the password creation email request on the fly.
 
 ![Edit user](/screenshots/edit.png?raw=true "Edit user")
 ![Group list](/screenshots/list-group.png?raw=true "Group list")

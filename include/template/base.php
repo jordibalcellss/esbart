@@ -1,5 +1,5 @@
-		</div>
-		<div id="base">
-		</div>
-	</body>
+    </div>
+    <div id="base">
+    </div>
+  </body>
 </html>
