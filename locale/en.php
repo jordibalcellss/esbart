@@ -69,6 +69,7 @@ define("user_add_assisted_advice_3","the groups allow multiple selection");
 define("one_time_password_email_sent","a form has been sent to");
 define("user_does_not_exist","this user can't seem to exist");
 define("reactivate_pw_request_necessary","to reactivate a password reset is necessary");
+define("reinvite","reinvite");
 
 define("password_does_not_match","the password does not match");
 define("password_must_contain_at_least","the password must be, at least,");
@@ -92,7 +93,7 @@ define("cheers","Regards");
 
 define("welcome_to","Welcome to");
 define("welcome_set_password_via","Welcome to ".FROM_NAME.". Please, create a password for your new account following this link:");
-define("welcome_access_advice","Once created, we'll confirm the account details.");
+define("welcome_access_advice","The link will expire past ".TOKEN_EXPIRES_H." hours.");
 
 define("account_ready","Your new account is ready. Your user name is");
 define("account_ready_advice","");

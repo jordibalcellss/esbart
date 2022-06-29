@@ -20,6 +20,11 @@ if ($pd = getPersonalData($_GET['object'])) {
     printMessages($err);
     echo "      </form>\n";
   }
+  else if (isset($_GET['reinvite'])) {
+    if (sendOneTimeSetPasswordEmail($_GET['object'],false)) {
+      echo "<p>".user_add_welcome_email_sent." ".$_GET['object']."</p>";
+    }
+  }
   else {
     if (sendOneTimeSetPasswordEmail($_GET['object'],true)) {
       echo "<p>".one_time_password_email_sent." ".$_GET['object']."</p>";

@@ -8,6 +8,7 @@ define('MODE','dark');
 define('LOGGING',false);
 define('MIN_PASSWORD_LENGTH',10);
 define('HIDE_SECOND_SURNAME',true);
+define('TOKEN_EXPIRES_H',24);
 define('FROM_NAME','Organisation');
 define('FROM_ADDR','noreply@example.com');
 define('FROM_REPLYTO','replyto@example.com');
@@ -16,8 +17,8 @@ define('FROM_REPLYTO','replyto@example.com');
 define('DB_HOST','localhost');
 define('DB_NAME','esbart');
 define('DB_PORT',3306);
-define('DB_USER','');
-define('DB_PASS','');
+define('DB_USER','mysql');
+define('DB_PASS','mysql');
 
 //LDAP
 define('LDAP_TREE','dc=laptop,dc=local');

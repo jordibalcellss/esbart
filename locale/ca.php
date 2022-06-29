@@ -69,6 +69,7 @@ define("user_add_assisted_advice_3","fixeu-vos bé en el correu-e de l'usuari, j
 define("one_time_password_email_sent","s'ha enviat un formulari a");
 define("user_does_not_exist","no sembla que aquest usuari existeixi");
 define("reactivate_pw_request_necessary","per a reactivar-lo, cal sol·licitar una nova contrasenya");
+define("reinvite","reinvita");
 
 define("password_does_not_match","la contrasenya no coincideix");
 define("password_must_contain_at_least","la contrasenya ha de tenir, almenys,");
@@ -92,7 +93,7 @@ define("cheers","Salut!");
 
 define("welcome_to","Benvingut a");
 define("welcome_set_password_via","Benvingut/da a ".FROM_NAME.". Si us plau, crea una contrasenya pel teu nou compte a través d'aquest enllaç:");
-define("welcome_access_advice","");
+define("welcome_access_advice","El vincle caducarà d'aquí a ".TOKEN_EXPIRES_H." hores.");
 
 define("account_ready","El teu compte ja està preparat. El teu nom d'usuari és");
 define("account_ready_advice","");
