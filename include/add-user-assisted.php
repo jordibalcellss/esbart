@@ -58,7 +58,7 @@ else {
       if ($res_entry) {
         $err[] = user_add_success;
         if (sendOneTimeSetPasswordEmail($name_1_f.'.'.$name_2_f.$name_3_f,false)) {
-          $err[] = user_add_welcome_email_sent;
+          $err[] = user_add_welcome_email_sent." ".trim($_POST['name_1']);
         }
         else {
           $err[] = user_add_welcome_email_not_sent;

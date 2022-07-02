@@ -51,7 +51,7 @@ define("username_legal_characters","el nom d'usuari només pot tenir minúscules
 define("verify_email","verifiqueu el correu-e, si us plau");
 define("user_add_success","s'ha creat el compte correctament");
 define("user_edit_success","s'ha editat el compte amb èxit");
-define("user_add_welcome_email_sent","hem enviat el missatge de benvinguda");
+define("user_add_welcome_email_sent","hem enviat el missatge de benvinguda a");
 define("user_add_welcome_email_not_sent","hi ha hagut algun problema amb el missatge de benvinguda");
 define("a_problem_occurred","hi ha hagut algun problema");
 define("group_add_success","s'ha creat el grup correctament");
@@ -71,6 +71,7 @@ define("user_does_not_exist","no sembla que aquest usuari existeixi");
 define("reactivate_pw_request_necessary","per a reactivar-lo, cal sol·licitar una nova contrasenya");
 define("reinvite","reinvita");
 
+define("one_time_link_has_expired","aquest enllaç ha caducat");
 define("password_does_not_match","la contrasenya no coincideix");
 define("password_must_contain_at_least","la contrasenya ha de tenir, almenys,");
 define("characters","caràcters");

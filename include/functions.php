@@ -33,7 +33,7 @@ function writeLog($filename,$message) {
     }
     $file = fopen($dir.$filename,'a');
     $date = new DateTime(null, new DateTimeZone('UTC'));
-    $data = $date->format('D M d h:i:s e Y').' '.$_SERVER['REMOTE_ADDR'].' '.$_POST['username'].": $message\n";
+    $data = $date->format('D M d H:i:s e Y').' '.$_SERVER['REMOTE_ADDR'].' '.$_POST['username'].": $message\n";
     fwrite($file,$data);
     fclose($file);
   }

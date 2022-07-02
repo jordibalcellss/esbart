@@ -96,15 +96,17 @@ if (isset($_GET['p'])) {
       
         <input name="submit" type="submit" value="<?=create?>" />
 <?php
-  printMessages($err);
-  echo <<<EOD
-      </form>
-    </div>
-  </body>
-</html>
-EOD;
+      printMessages($err);
+      echo "      </form>\n";
+    }
+    else {
+      echo "      <p>".one_time_link_has_expired."</p>\n";
     }
   }
 }
+
+echo "    </div>\n";
+echo "  </body>\n";
+echo "</html>\n";
 
 ?>
