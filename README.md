@@ -36,7 +36,7 @@ The configuration keys in regards of the database connection can be found in `co
 
 #### cron
 
-The unused password change keys *can* be expired regularly using cron. For instance, daily:
+The unused password change keys *can* be expired regularly using cron. An hourly run will ensure that they are expired quite close past `TOKEN_EXPIRES_H`:
 
 ```
 sudo crontab -u apache -l
