@@ -43,6 +43,7 @@ define("member_of","member of");
 define("members","members");
 define("actions","actions");
 define("there_are","there are");
+define("privacy_policy","privacy policy");
 
 define("user_add_assisted_name_surname_email_required","name, surname and email are required");
 define("name_cannot_be_empty","name cannot be empty");

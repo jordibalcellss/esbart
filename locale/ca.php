@@ -43,6 +43,7 @@ define("member_of","membre de");
 define("members","membres");
 define("actions","accions");
 define("there_are","hi ha");
+define("privacy_policy","política de privacitat");
 
 define("user_add_assisted_name_surname_email_required","el nom, primer cognom i correu-e són necessaris");
 define("name_cannot_be_empty","el nom no pot ser pas buit");

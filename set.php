@@ -105,8 +105,6 @@ if (isset($_GET['p'])) {
   }
 }
 
-echo "    </div>\n";
-echo "  </body>\n";
-echo "</html>\n";
+require 'include/template/base.php';
 
 ?>
