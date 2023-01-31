@@ -1,5 +1,22 @@
 <?php
 
+/**
+ * esbart
+ *
+ * Copyright 2022 by Jordi Balcells <jordi@balcells.io>
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software 
+ * Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program. 
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+
 require 'config.php';
 require 'locale/'.LOCALE.'.php';
 ini_set('error_reporting',ERROR_REPORTING);
@@ -7,28 +24,37 @@ ini_set('display_errors',DISPLAY_ERRORS);
 
 session_start();
 if (!isset($_SESSION['id'])) {
-  header("Location: login.php");
+  if (!isset($_COOKIE['sessionPersists'])) {
+    header("Location: login.php");
+  }
+  else {
+    $_SESSION['id'] = $_COOKIE['sessionPersists'];
+  }
 }
 
 require 'include/functions.php';
 require 'include/template/head.php';
 
+if (!isset($_GET['module'])) {
+  $_GET['module'] = 'users';
+}
+
+if ($_GET['module'] == 'users') {
+  echo '      <h2>'.users."</h2>\n";
+  echo '      <div id="sec-menu"><a href="?module=users&action=add&mode=assisted">'.add.'/'.assisted_mode.'</a> - <a href="?module=users&action=add&mode=manual">'.add.'</a> - <a href="?module=users&action=list">'.list_action."</a></div>\n";
+}
+else if ($_GET['module'] == 'groups') {
+  echo '      <h2>'.groups."</h2>\n";
+  echo '      <div id="sec-menu"><a href="?module=groups&action=add">'.add.'</a> - <a href="?module=groups&action=list">'.list_action."</a></div>\n";
+}
+
 if ($_POST) {
   $con = LDAPconnect()[0];
-  if ($_GET['action'] == 'password') {
-    require('include/password.php');
+  if (!isset($_GET['mode'])) {
+    require('include/'.$_GET['module'].'-'.$_GET['action'].'.php');
   }
-  else if ($_GET['action'] == 'add' && $_GET['object'] == 'user' && $_GET['mode'] == 'manual') {
-    require('include/add-user.php');
-  }
-  else if ($_GET['action'] == 'add' && $_GET['object'] == 'user' && $_GET['mode'] == 'assisted') {
-    require('include/add-user-assisted.php');
-  }
-  else if ($_GET['action'] == 'add' && $_GET['object'] == 'group') {
-    require('include/add-group.php');
-  }
-  else if ($_GET['action'] == 'edit') {
-    require('include/edit.php');
+  else {
+    require('include/'.$_GET['module'].'-'.$_GET['action'].'-'.$_GET['mode'].'.php');
   }
   ldap_close($con);
 }
@@ -36,49 +62,25 @@ else {
   $err = [];
 }
 
-?>
-      <h1><?=TITLE?></h1>
-      <ul id="menu">
-        <li><?=user?>
-          <ul>
-            <li><a href="?action=add&object=user&mode=assisted"><?=add." - ".assisted_mode?></a></li>
-            <li><a href="?action=add&object=user&mode=manual"><?=add?></a></li>
-            <li><a href="?action=list&object=user"><?=list_action?></a></li>
-          </ul>
-        </li>
-        <li><?=group?>
-          <ul>
-            <li><a href="?action=add&object=group"><?=add?></a></li>
-            <li><a href="?action=list&object=group"><?=list_action?></a></li>
-          </ul>
-        </li>
-      </ul>
-<?php
-
-if (isset($_GET['action']) && isset($_GET['object'])) {
-  if ($_GET['action'] == 'password') {
-    require('include/password-form.php');
-  }
-  else if ($_GET['action'] == 'add' && $_GET['object'] == 'user' && $_GET['mode'] == 'assisted') {
-    require('include/add-user-assisted-form.php');
-  }
-  else if ($_GET['action'] == 'add' && $_GET['object'] == 'group') {
-    require('include/add-group-form.php');
-  }
-  else if ($_GET['action'] == 'add' && $_GET['object'] == 'user' && $_GET['mode'] == 'manual') {
-    require('include/add-user-form.php');
-  }
-  else if ($_GET['action'] == 'list') {
-    $con = LDAPconnect()[0];
-    require('include/list-'.$_GET['object'].'.php');
-    ldap_close($con);
-  }
-  else if ($_GET['action'] == 'edit') {
-    require('include/edit-form.php');
+if (isset($_GET['action'])) {
+  if ($_GET['action'] == 'list') {
+    require('include/'.$_GET['module'].'-list.php');
   }
   else if ($_GET['action'] == 'disable') {
-    require('include/disable.php');
+    require('include/users-disable.php');
   }
+  else {
+    if (!isset($_GET['mode'])) {
+      require('include/'.$_GET['module'].'-'.$_GET['action'].'-form.php');
+    }
+    else {
+      require('include/'.$_GET['module'].'-'.$_GET['action'].'-'.$_GET['mode'].'-form.php');
+    }
+  }
+}
+else {
+  //default page after a clean url
+  require('include/'.$_GET['module'].'-list.php');
 }
 
 require 'include/template/base.php';

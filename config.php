@@ -1,7 +1,7 @@
 <?php
 
 //esbart
-define('URL','http://localhost/esbart');
+define('URL','http://localhost/esbart/');
 define('TITLE','esbart');
 define('LOCALE','en');
 define('MODE','dark');
@@ -12,6 +12,8 @@ define('TOKEN_EXPIRES_H',24);
 define('FROM_NAME','Organisation');
 define('FROM_ADDR','noreply@example.com');
 define('FROM_REPLYTO','replyto@example.com');
+define('FOOTER_IMAGE_P','include/template/images/logo.png');
+define('FOOTER_PRIVACY_POLICY_URL','');
 
 //MariaDB
 define('DB_HOST','localhost');

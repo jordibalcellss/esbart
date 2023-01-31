@@ -6,7 +6,7 @@ ini_set('error_reporting',ERROR_REPORTING);
 ini_set('display_errors',DISPLAY_ERRORS);
 
 require 'include/functions.php';
-require 'include/template/head-login.php';
+require 'include/template/head-no-menu.php';
 
 if (isset($_GET['p'])) {
   $db = new DB();
@@ -85,7 +85,7 @@ if (isset($_GET['p'])) {
         $man = '';
       }
 ?>
-      <h1><?=set_password_header?></h1>
+      <h1 class="padded"><?=set_password_header?></h1>
       <p><?=set_password_requirements?></p>
       <form id="password" enctype="application/x-www-form-urlencoded" method="post" action="<?=$_SERVER['PHP_SELF'].'?p='.$_GET['p'].$man?>">
         <div><label for="password"><?=password?></label></div>

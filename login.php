@@ -9,6 +9,9 @@ session_start();
 if (isset($_GET['action'])) {
   if ($_GET['action'] == 'logout') {
     session_destroy();
+    $domain = explode('/', URL)[2];
+    $path = explode('/', URL)[3];
+    setcookie("sessionPersists", "", time()-3600, $path, $domain, 1);
     header("Location: login.php");
   }
 }
@@ -40,6 +43,9 @@ if ($_POST) {
             $_SESSION['id'] = $username;
             $success = true;
             writeLog('login-access.log',logged_in);
+            $domain = explode('/', URL)[2];
+            $path = explode('/', URL)[3];
+            setcookie("sessionPersists", $username, time()+3600*24*30, $path, $domain, 1);
             ob_end_clean(); //cleans the output buffer and stops buffering
             header("Location: index.php");
           }

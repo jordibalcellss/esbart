@@ -18,8 +18,6 @@ define("user","usuari");
 define("group","grup");
 define("users","usuaris");
 define("groups","grups");
-define("user_list","llista d'usuaris");
-define("group_list","llista de grups");
 
 define("assisted_mode","mode assistit");
 define("add","afegeix");
@@ -44,6 +42,7 @@ define("members","membres");
 define("actions","accions");
 define("there_are","hi ha");
 define("privacy_policy","política de privacitat");
+define("is_free_software","és programari lliure");
 
 define("user_add_assisted_name_surname_email_required","el nom, primer cognom i correu-e són necessaris");
 define("name_cannot_be_empty","el nom no pot ser pas buit");

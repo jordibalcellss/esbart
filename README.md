@@ -4,9 +4,9 @@ esbart is an LDAP web frontend written in PHP.
 
 ## Description
 
-esbart allows any organisation to easily look after an LDAP directory. It provides an oriented interface based on typical  *domain controller* functionalities related to user accounts, their credentials and memberships, etc.
+esbart allows organisations to easily maintain an LDAP directory. It provides an oriented interface based on typical  *domain controller* functionalities related to user accounts, their credentials and memberships, et cetera.
 
-The software will also deliver one-time password change tokens via email to streamline unattended credential management, and also instructional emails to set-up and welcome users.
+The software will also deliver one-time password change tokens via email to streamline unattended credential management, and also instructional emails to welcome and set users up.
 
 ## Getting Started
 
@@ -14,13 +14,11 @@ The software will also deliver one-time password change tokens via email to stre
 
 * An LDAP directory (OpenLDAP for instance)
 * A webserver
-* A MySQL/MariaDB database
+* A MySQL/MariaDB database (to store password change tokens)
 * A Mail Transmission Agent
 * PHP modules
   * php-mbstring
   * php-ldap
-
-The database allows storing password change keys and expire them accordingly, and the MTA dispatches the emails sent by the system.
 
 ### Installing
 
@@ -67,14 +65,14 @@ esbart will look after the Samba credentials as well, `sambaNTpassword`, which w
 
 ## Screenshots
 
-![User list](/screenshots/list-user.png?raw=true "User list")
-![Create user - assisted mode](/screenshots/add-user-assisted.png?raw=true "Create user - assisted mode")
+![User list](/screenshots/users-list.png?raw=true "User list")
+![Create user - assisted mode](/screenshots/users-add-assisted.png?raw=true "Create user - assisted mode")
 
 The previous screenshot shows a simplified user creation form called *assisted mode*. It sorts out the user name automatically matching an specific format and dispatches the password creation email request on the fly.
 
-![Edit user](/screenshots/edit.png?raw=true "Edit user")
-![Group list](/screenshots/list-group.png?raw=true "Group list")
-![Set password](/screenshots/password.png?raw=true "Set password")
+![Edit user](/screenshots/users-edit.png?raw=true "Edit user")
+![Group list](/screenshots/groups-list.png?raw=true "Group list")
+![Set password](/screenshots/users-password.png?raw=true "Set password")
 
 ## License
 

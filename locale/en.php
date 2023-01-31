@@ -18,8 +18,6 @@ define("user","user");
 define("group","group");
 define("users","users");
 define("groups","groups");
-define("user_list","user list");
-define("group_list","group list");
 
 define("assisted_mode","assisted mode");
 define("add","create");
@@ -44,6 +42,7 @@ define("members","members");
 define("actions","actions");
 define("there_are","there are");
 define("privacy_policy","privacy policy");
+define("is_free_software","is free software");
 
 define("user_add_assisted_name_surname_email_required","name, surname and email are required");
 define("name_cannot_be_empty","name cannot be empty");
@@ -64,7 +63,7 @@ define("user_add_how_to_use","how to use this form");
 define("user_add_advice_1","only the name and surname are required");
 define("user_add_advice_2","an empty home directory sets a folder under /home automatically");
 define("user_add_assisted_advice_1","fill in the name and the surname");
-define("user_add_assisted_advice_2","double check to the email address: it will be sent the welcome setup");
+define("user_add_assisted_advice_2","double check the email address: it will be sent the welcome setup");
 define("user_add_assisted_advice_3","the groups allow multiple selection");
 
 define("one_time_password_email_sent","a form has been sent to");
