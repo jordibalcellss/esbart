@@ -1,6 +1,6 @@
 # esbart
 
-esbart is an LDAP web frontend written in PHP.
+An LDAP web frontend written in PHP.
 
 ## Description
 
