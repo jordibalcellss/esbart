@@ -2,10 +2,11 @@
 html, body { height: 100%; }
 body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; text-align: left; margin-left: 50px; }
 
-div#login, h1.padded { padding-top: 50px; }
-div#login h1, h1.padded { padding-bottom: 18px; }
+div#login, .padded { padding-top: 50px; }
+div#login h1, .padded { padding-bottom: 18px; }
 
 form #messages { margin-top: 15px; line-height: 18px; }
+form#password { margin-top: 16px; }
 
 input.short { width: 135px; }
 

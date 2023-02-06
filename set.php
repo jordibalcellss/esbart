@@ -100,7 +100,7 @@ if (isset($_GET['p'])) {
       echo "      </form>\n";
     }
     else {
-      echo "      <p>".one_time_link_has_expired."</p>\n";
+      echo "      <p class=\"padded\">".one_time_link_has_expired."</p>\n";
     }
   }
 }
