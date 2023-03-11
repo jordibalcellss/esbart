@@ -33,7 +33,7 @@ else {
       
       //set the password
       $entry['userpassword'] = "{SHA}".base64_encode(pack("H*",sha1($password)));
-      $res = ldap_mod_replace($con,'uid='.$uid.",ou=users,".LDAP_TREE,$entry);
+      $res = ldap_mod_replace($con,'uid='.$uid.",".LDAP_SEARCH_DN,$entry);
       
       if (!$res) {
         $err_des = ldap_error($con);

@@ -32,6 +32,15 @@ select {
   border-radius: 2px;
 }
 
+select.select-groups{
+  width: 10em;
+  height: 20em;
+}
+
+select.select-ous{
+  width: 35em;
+}
+
 select option {
   padding: 2px 6px 3px 6px;
 }

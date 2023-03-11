@@ -33,7 +33,7 @@ function writeLog($filename,$message) {
     }
     $file = fopen($dir.$filename,'a');
     $date = new DateTime(null, new DateTimeZone('UTC'));
-    $data = $date->format('D M d H:i:s e Y').' '.$_SERVER['REMOTE_ADDR'].' '.$_POST['username'].": $message\n";
+    $data = $date->format('D M d H:i:s e Y').' '.$_SERVER['REMOTE_ADDR']." $message\n";
     fwrite($file,$data);
     fclose($file);
   }
@@ -73,28 +73,38 @@ function getSambaSID($uidnumber) {
 
 function getPersonalData($uid) {
   /*
-   * returns an array with the following attributes
-   * 0 given name
-   * 1 full name
-   * 2 login
-   * 3 email
-   * 4 home directory
-   * 5 shell
+   * returns an array with the attributes
+   * defined in LDAP_USER_ATTRS var from config.php 
    * 
-   * returns false on failure
+   * returns false on failure, or two arrays: the first
+   * containing the attributes and the second array
+   * containing its values
    */
   $con = LDAPconnect();
-  $result = @ldap_read($con[0],"uid=$uid,ou=users,".LDAP_TREE,"(cn=*)",array('cn','uid','email','homedirectory','loginshell'));
+  $udn=getUserDN($uid);
+  
+  if($udn == null)
+    return false;
+  
+  $user_attr_array=preg_split ("/\,/", LDAP_USER_ATTRS);
+  $result = @ldap_read($con[0],$udn,"(cn=*)",$user_attr_array); 
+  $user_attr_not_found[] = null;
+
   if ($result) {
     $entries = ldap_get_entries($con[0],$result);
-    $pd[0] = explode(' ',$entries[0]['cn'][0])[0];
-    $pd[1] = $entries[0]['cn'][0];
-    $pd[2] = $entries[0]['uid'][0];
-    $pd[3] = $entries[0]['email'][0];
-    $pd[4] = $entries[0]['homedirectory'][0];
-    $pd[5] = $entries[0]['loginshell'][0];
-    ldap_close($con[0]);
-    return $pd;
+
+    $x=0;
+    foreach ($user_attr_array as $value) {
+      if ( isset($entries[0][$value][0]) ){
+        $pd[$x] = $entries[0][$value][0];
+        $x=$x+1;
+      }
+      else
+        $user_attr_not_found [] = $value;
+    }
+    
+    $user_attr_array = array_diff($user_attr_array, $user_attr_not_found);    
+    return array($user_attr_array,$pd);
   }
   else {
     ldap_close($con[0]);
@@ -102,29 +112,56 @@ function getPersonalData($uid) {
   }
 }
 
+function console($obj){
+    $js = json_encode($obj);
+    print_r('<script>console.log('.$js.')</script>');
+}
+
 function accountHasEmail($uid) {
   $con = LDAPconnect();
-  $result = ldap_read($con[0],"uid=$uid,ou=users,".LDAP_TREE,"(cn=*)",array('email'));
+  $udn=getUserDN($uid);
+  $result = ldap_read($con[0],$udn,"(cn=*)", array(LDAP_USER_EMAIL_ATTR ));
   $entries = ldap_get_entries($con[0],$result);
   ldap_close($con[0]);
-  if (strlen($entries[0]['email'][0]) > 0) {
+  if (strlen($entries[0][LDAP_USER_EMAIL_ATTR][0]) > 0) {
     return true;
   }
   else {
+    writeLog('login-error.log',"uid=$uid,".LDAP_SEARCH_DN." has no email");
     return false;
+  }
+}
+
+function getUserDN($user){
+  $con = LDAPconnect();
+  $res = ldap_search($con[0], LDAP_SEARCH_DN, "(uid=$user)");
+  $first = ldap_first_entry($con[0], $res);
+  if (!$first)
+    return null;
+  $data = ldap_get_dn($con[0], $first);
+  if ($data){
+    writeLog('login-info.log',$data);
+    return $data;
+  }  
+  else{
+    writeLog('login-error.log',user_dn_not_found);
+    return null;
   }
 }
 
 function accountIsEnabled($uid) {
   //an account is considered active if either userpassword or sambantpassword are set
   $con = LDAPconnect();
-  $result = ldap_read($con[0],"uid=$uid,ou=users,".LDAP_TREE,"(cn=*)",array('userpassword','sambantpassword'));
+  $udn=getUserDN($uid);
+  $result = ldap_read($con[0],$udn,"(cn=*)",array('userpassword','sambantpassword'));
   $entries = ldap_get_entries($con[0],$result);
   ldap_close($con[0]);
   if (isset($entries[0]['userpassword'][0]) || isset($entries[0]['sambantpassword'][0])) {
+    writeLog('login-info.log',$uid.' account enabled');
     return true;
   }
   else if (!isset($entries[0]['userpassword'][0]) && !isset($entries[0]['sambantpassword'][0])){
+    writeLog('login-info.log',$uid.' account disabled');
     return false;
   }
 }
@@ -133,13 +170,14 @@ function disableAccount($uid) {
   //removes userpassword and/or sambantpassword attributes
   if (getPersonalData($uid)) {
     $con = LDAPconnect();
-    $result = ldap_read($con[0],"uid=$uid,ou=users,".LDAP_TREE,"(cn=*)",array('userpassword','sambantpassword'));
+    $udn=getUserDN($uid);
+    $result = ldap_read($con[0],$udn,"(cn=*)",array('userpassword','sambantpassword'));
     $entries = ldap_get_entries($con[0],$result);
     if (isset($entries[0]['userpassword'][0])) {
-      ldap_mod_del($con[0],"uid=$uid,ou=users,".LDAP_TREE,array('userpassword' => array()));
+      ldap_mod_del($con[0],"uid=$uid,".LDAP_SEARCH_DN,array('userpassword' => array()));
     }
     if (isset($entries[0]['sambantpassword'][0])) {
-      ldap_mod_del($con[0],"uid=$uid,ou=users,".LDAP_TREE,array('sambantpassword' => array()));
+      ldap_mod_del($con[0],"uid=$uid,".LDAP_SEARCH_DN,array('sambantpassword' => array()));
     }
     ldap_close($con[0]);
     return true;
@@ -152,12 +190,13 @@ function disableAccount($uid) {
 function addUserToGroups($uid,$groups) {
   //expects an array of group names
   $con = LDAPconnect();
-  $entry['memberuid'] = $uid;
+  $udn=getUserDN($uid);
+  $entry[LDAP_GROUP_ATTR] = $udn;
   $fail = false;
   foreach ($groups as $group) {
     //the select html tag may send an empty string
     if (strlen($group) > 0) {
-      $result = ldap_mod_add($con[0],"cn=$group,ou=groups,".LDAP_TREE,$entry);
+      $result = ldap_mod_add($con[0],"cn=$group,".LDAP_GROUPS_DN,$entry);
         if (!$result) {
           $fail = true;
       }
@@ -170,10 +209,11 @@ function addUserToGroups($uid,$groups) {
 function removeUserFromGroups($uid,$groups) {
   //expects an array of group names
   $con = LDAPconnect();
-  $entry['memberuid'] = $uid;
+  $udn=getUserDN($uid);
+  $entry[LDAP_GROUP_ATTR] = $udn;
   $fail = false;
   foreach ($groups as $group) {
-    $result = ldap_mod_del($con[0],"cn=$group,ou=groups,".LDAP_TREE,$entry);
+    $result = ldap_mod_del($con[0],"cn=$group,".LDAP_GROUPS_DN,$entry);
     if (!$result) {
       $fail = true;
     }
@@ -182,10 +222,35 @@ function removeUserFromGroups($uid,$groups) {
   return !$fail;
 }
 
+function getOrganizationalUnits(){
+  $con = LDAPconnect();
+  $filter="(objectClass=organizationalunit)"; 
+  $dn = LDAP_TREE; 
+  $justthese = array('dn', 'ou'); 
+  $result=ldap_search($con[0], $dn, $filter, $justthese); 
+  $entries = ldap_get_entries($con[0],$result);
+  ldap_close($con[0]);
+  $ous[]=null;
+  if($entries){
+    for ($i=0; $i < $entries['count']; $i++) { 
+      $ous[$i]['dn']=$entries[$i]['dn'];
+      $ous[$i]['ou']=$entries[$i]['ou']; 
+    }
+    return $ous;
+  }
+  else {
+    writeLog('login-error.log',ldap_error($con));
+    ldap_get_option($con, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
+    writeLog('login-error.log',$err);
+    $err[] = cant_get_ous;
+    return null;
+  }
+}
+
 function getAssignableGroups() {
   //returns an array of group names
   $con = LDAPconnect();
-  $result = ldap_search($con[0],'ou=groups,'.LDAP_TREE,"(cn=*)",array('cn'));
+  $result = ldap_search($con[0],LDAP_GROUPS_DN,"(cn=*)",array('cn'));
   $entries = ldap_get_entries($con[0],$result);
   ldap_close($con[0]);
   $groups = array();
@@ -200,13 +265,13 @@ function getAssignableGroups() {
 function getGroupMembers($cn) {
   //returns an array of uids
   $con = LDAPconnect();
-  $result = ldap_search($con[0],"cn=$cn,ou=groups,".LDAP_TREE,"(cn=*)",array('memberuid'));
+  $result = ldap_search($con[0],"cn=$cn,".LDAP_GROUPS_DN,"(cn=*)",array(LDAP_GROUP_ATTR));
   $entries = ldap_get_entries($con[0],$result);
   ldap_close($con[0]);
   $members = array();
-  if (isset($entries[0]['memberuid'])) {
-    for ($i = 0; $i < $entries[0]['memberuid']['count']; $i++) {
-      $members[] = $entries[0]['memberuid'][$i];
+  if (isset($entries[0][LDAP_GROUP_ATTR])) {
+    for ($i = 0; $i < $entries[0][LDAP_GROUP_ATTR]['count']; $i++) {
+      $members[] = $entries[0][LDAP_GROUP_ATTR][$i];
     }
   }
   return $members;
@@ -215,14 +280,15 @@ function getGroupMembers($cn) {
 function getUserMembership($uid) {
   //returns an array of group names
   $con = LDAPconnect();
-  $result = ldap_search($con[0],'ou=groups,'.LDAP_TREE,"(cn=*)",array('cn','memberuid'));
+  $udn=getUserDN($uid);
+  $result = ldap_search($con[0],LDAP_GROUPS_DN,"(cn=*)",array('cn',LDAP_GROUP_ATTR));
   $entries = ldap_get_entries($con[0],$result);
   ldap_close($con[0]);
   $groups = array();
   for ($i = 0; $i < $entries['count']; $i++) {
-    if (isset($entries[$i]['memberuid'])) {
-      for ($j = 0; $j < $entries[$i]['memberuid']['count']; $j++) {
-        if ($entries[$i]['memberuid'][$j] == $uid) {
+    if (isset($entries[$i][LDAP_GROUP_ATTR])) {
+      for ($j = 0; $j < $entries[$i][LDAP_GROUP_ATTR]['count']; $j++) {
+        if ($entries[$i][LDAP_GROUP_ATTR][$j] == $udn) {
           $groups[] = $entries[$i]['cn'][0];
           break;
         }
@@ -283,24 +349,24 @@ function sendOneTimeSetPasswordEmail($uid,$manual) {
       $url = $url."&man";
       $subject = reset_password;
       $message = "<html><p>".ucfirst(greeting)." $pd[0],</p>
-<p>".somebody_offered_reset_link."</p>
-<p><a href=\"$url\">$url</a></p>
-<p>".if_unsolicited_ignore."</p>
-<p>".thank_you."</p>
-<img src=\"".URL."/".FOOTER_IMAGE_P."\" alt=\"".FROM_NAME."\" />
-<p style=\"font-size: 12px;\"><a href=\"".FOOTER_PRIVACY_POLICY_URL."\">".FROM_NAME." - ".privacy_policy."</a></p>
-</html>";
+      <p>".somebody_offered_reset_link."</p>
+      <p><a href=\"$url\">$url</a></p>
+      <p>".if_unsolicited_ignore."</p>
+      <p>".thank_you."</p>
+      <img src=\"".URL."/".FOOTER_IMAGE_P."\" alt=\"".FROM_NAME."\" />
+      <p style=\"font-size: 12px;\"><a href=\"".FOOTER_PRIVACY_POLICY_URL."\">".FROM_NAME." - ".privacy_policy."</a></p>
+      </html>";
   }
   else {
       $subject = welcome_to." ".FROM_NAME;
       $message = "<html><p>".ucfirst(greeting)." $pd[0],</p>
-<p>".welcome_set_password_via."</p>
-<p><a href=\"$url\">$url</a></p>
-<p>".welcome_access_advice."</p>
-<p>".thank_you."</p>
-<img src=\"".URL."/".FOOTER_IMAGE_P."\" alt=\"".FROM_NAME."\" />
-<p style=\"font-size: 12px;\"><a href=\"".FOOTER_PRIVACY_POLICY_URL."\">".FROM_NAME." - ".privacy_policy."</a></p>
-</html>";
+      <p>".welcome_set_password_via."</p>
+      <p><a href=\"$url\">$url</a></p>
+      <p>".welcome_access_advice."</p>
+      <p>".thank_you."</p>
+      <img src=\"".URL."/".FOOTER_IMAGE_P."\" alt=\"".FROM_NAME."\" />
+      <p style=\"font-size: 12px;\"><a href=\"".FOOTER_PRIVACY_POLICY_URL."\">".FROM_NAME." - ".privacy_policy."</a></p>
+      </html>";
   }
 
     $result_mail = mail($pd[3],$subject,$message,implode("\r\n",$headers));

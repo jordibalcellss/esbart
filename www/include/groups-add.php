@@ -10,7 +10,7 @@ else {
   $entry['gidnumber'] = getNextId($con,'group');
       
   //add entry
-  $res_entry = @ldap_add($con,'cn='.trim($_POST['name']).",ou=groups,".LDAP_TREE,$entry);
+  $res_entry = @ldap_add($con,'cn='.trim($_POST['name']).",".LDAP_GROUPS_DN,$entry);
       
   if ($res_entry) {
     $err[] = group_add_success;

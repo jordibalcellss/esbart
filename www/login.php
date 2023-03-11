@@ -32,17 +32,18 @@ if ($_POST) {
     }
     else {
       $username = trim($_POST['username']);
-      $bind = @ldap_bind($con,"uid=$username,ou=users,".LDAP_TREE,$_POST['password']); //@ supresses warnings
+      $udn=getUserDN($username);
+      $bind = ldap_bind($con,$udn,$_POST['password']);
       if ($bind) {
-        $result = @ldap_read($con,LDAP_AUTH_GROUP,"(memberuid=*)",array('memberuid')); //equivalent to ldap_search()
-        $entries = @ldap_get_entries($con,$result);
+        $result = ldap_read($con,LDAP_AUTH_GROUP,"(".LDAP_GROUP_ATTR."=*)",array(LDAP_GROUP_ATTR)); //equivalent to ldap_search()
+        $entries = ldap_get_entries($con,$result);
         ldap_close($con);
         $success = false;
-        for ($i = 0; $i < $entries[0]['memberuid']['count']; $i++) {
-          if ($entries[0]['memberuid'][$i] == $username) {
+        for ($i = 0; $i < $entries[0][LDAP_GROUP_ATTR]['count']; $i++) {
+          if ($entries[0][LDAP_GROUP_ATTR][$i] == $udn) {
             $_SESSION['id'] = $username;
             $success = true;
-            writeLog('login-access.log',logged_in);
+            writeLog('login-access.log',$udn.' '.logged_in);
             $domain = explode('/', URL)[2];
             $path = explode('/', URL)[3];
             setcookie("sessionPersists", $username, time()+3600*24*30, $path, $domain, 1);
@@ -52,7 +53,7 @@ if ($_POST) {
         }
         if (!$success) {
           $err[] = unauthorized;
-          writeLog('login-error.log',unauthorized_log);
+          writeLog('login-error.log',$udn.' '.unauthorized_log);
         }
       }
       else {

@@ -1,7 +1,7 @@
 <?php
 
 $con = LDAPconnect()[0];
-$result = ldap_search($con,'ou=groups,'.LDAP_TREE,"(cn=*)",array('cn','gidnumber'));
+$result = ldap_search($con,LDAP_GROUPS_DN,"(cn=*)",array('cn','gidnumber'));
 $entries = ldap_get_entries($con,$result);
 //sort alphabetically
 usort($entries,"sortByName");

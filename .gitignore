@@ -1,3 +1,4 @@
 *.log
 *_eixam*
 logo*
+www/config.php

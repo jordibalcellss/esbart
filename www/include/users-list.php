@@ -1,7 +1,7 @@
 <?php
 
 $con = LDAPconnect()[0];
-$result = ldap_search($con,'ou=users,'.LDAP_TREE,"(cn=*)",array('cn','email','uidnumber','uid'));
+$result = ldap_search($con,LDAP_SEARCH_DN,"(cn=*)",array('cn',LDAP_USER_EMAIL_ATTR,'uidnumber','uid'));
 $entries = ldap_get_entries($con,$result);
 //sort alphabetically
 usort($entries,"sortByName");
@@ -33,7 +33,7 @@ for ($i = 1; $i < count($entries); $i++) {
   echo "        <tr>\n";
   echo '          <td width="200">'.$entries[$i]['cn'][0]."</td>\n";
   echo '          <td width="100">'.$entries[$i]['uid'][0]."</td>\n";
-  echo '          <td width="300">'.$entries[$i]['email'][0]."</td>\n";
+  echo '          <td width="300">'.$entries[$i][LDAP_USER_EMAIL_ATTR][0]."</td>\n";
   echo '          <td>'.implode(', ',getUserMembership($entries[$i]['uid'][0]))."</td>\n";
   echo '          <td align="right" width="200">'.$password.$disable.$reinvite.$edit."</td>\n";
   echo "        </tr>\n";
