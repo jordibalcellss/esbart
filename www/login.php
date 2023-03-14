@@ -32,8 +32,9 @@ if ($_POST) {
     }
     else {
       $username = trim($_POST['username']);
+      $pass = $_POST['password'];
       $udn=getUserDN($username);
-      $bind = ldap_bind($con,$udn,$_POST['password']);
+      $bind = @ldap_bind($con,$udn,$pass);
       if ($bind) {
         $result = ldap_read($con,LDAP_AUTH_GROUP,"(".LDAP_GROUP_ATTR."=*)",array(LDAP_GROUP_ATTR)); //equivalent to ldap_search()
         $entries = ldap_get_entries($con,$result);

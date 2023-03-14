@@ -146,7 +146,6 @@ function getUserDN($user){
     return null;
   $data = ldap_get_dn($con[0], $first);
   if ($data){
-    writeLog('login-info.log',$data);
     return $data;
   }  
   else{
