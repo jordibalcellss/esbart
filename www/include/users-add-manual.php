@@ -31,8 +31,11 @@ else {
       $entry['cn'] = $name_1.' '.$name_2;
       $entry['sn'] = $name_2;
       $entry['uid'] = $login;
-      $entry['uidnumber'] = $uidnumber;
-      $entry['gidnumber'] = LDAP_PRIMARY_GROUP_ID;
+
+      if (in_array("posixAccount", $user_oclass_array)){
+        $entry['uidnumber'] = $uidnumber;
+        $entry['gidnumber'] = LDAP_PRIMARY_GROUP_ID;
+      }
 
       if ( in_array("givenname", $user_attr_array) && isset($name_1) )
         $entry['givenname'] = $name_1;
@@ -52,7 +55,6 @@ else {
       /*if (in_array("sambasid", $user_attr_array) )
         $entry['sambasid'] = getSambaSID($uidnumber);
       */
-
       if (in_array("sambaSamAccount", $user_oclass_array) )
         $entry['sambasid'] = LDAP_SAMBA_SID;
       

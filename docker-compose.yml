@@ -8,6 +8,7 @@
     - "80:80"
    links:
     - php
+    - mysql
    volumes_from:
     - app-data
 
@@ -30,21 +31,25 @@
    build: ./mysql/   
    ports:
     - "3306:3306"
-   container_name: mysql-container  
+   container_name: mysql-container
    environment:  
-    MYSQL_ROOT_PASSWORD: secretabc  
-    MYSQL_DATABASE: esbart  
-    MYSQL_USER: esbart  
-    MYSQL_PASSWORD: aenae5Oaboo0SaiTheil8xieGhoo7igi  
+    MYSQL_ROOT_PASSWORD: esbart  
+    #MYSQL_DATABASE: esbart  
+    #MYSQL_USER: esbart  
+    #MYSQL_PASSWORD: aenae5Oaboo0SaiTheil8xieGhoo7igi  
    volumes_from:
     - mysql-data
 
   mysql-data:    
-   image: mysql:5.7  
+   image: mysql:5.7 
    container_name: mysql-data-container  
    volumes:  
     - /var/lib/mysql  
-   command: "true" 
+   command: "true"
+
+
+ networks:
+  mynet:
 
 
 

@@ -1,7 +1,11 @@
 -- one time password tokens database
+DROP DATABASE IF EXISTS esbart;
 
 CREATE DATABASE esbart;
+
 USE esbart;
+
+DROP TABLE IF EXISTS pw_set_requests;
 
 CREATE TABLE IF NOT EXISTS pw_set_requests (
   id INT NOT NULL AUTO_INCREMENT,
@@ -12,3 +16,7 @@ CREATE TABLE IF NOT EXISTS pw_set_requests (
   UNIQUE (pass),
   PRIMARY KEY (id)
 );
+
+DROP USER IF EXISTS 'esbart'@'%';
+CREATE USER 'esbart'@'%' identified by 'aenae5Oaboo0SaiTheil8xieGhoo7igi';
+GRANT ALL PRIVILEGES ON esbart.* to 'esbart'@'%';

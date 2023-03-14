@@ -26,8 +26,9 @@ define("list_action","listar");
 define("disable","desabilitar");
 define("edit","editar");
 define("repeat","repetir");
-define("create","set");
+define("create","configurar");
 define("save","salvar");
+define("remove","remover");
 define("was_disabled","foi desabilitado");
 
 define("name","nome");
@@ -103,5 +104,11 @@ define("account_ready_advice","");
 define("account_ready_server","");
 define("account_ready_explanation","");
 define("account_ready_help","Se voçê precisar ajuda, pode nos econtrar em ".FROM_REPLYTO.".");
+
+define("unable_change_pass_sync","já está sincronizado com outra base LDAP. Não é possível alterar a senha.");
+define("removed_user_success","removido com sucesso.");
+define("removed_user_failed","Não foi possível remover o usuário");
+define("remove_user_confirmation","Você tem certeza que deseja remover?");
+
 
 ?>

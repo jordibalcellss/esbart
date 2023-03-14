@@ -31,10 +31,12 @@
         echo "<div><label for='ou'>".ou.":</label></div>";
         echo "<div><select class='select-ous' name='ou'>";
         $ous = getOrganizationalUnits();
-        console($ous);
+        
         foreach ($ous as $ou) {
           $o=$ou['dn'];
-          echo "<option value='$o'>$o</option>";          
+          if( strpos($o, LDAP_SEARCH_DN) !== false){          
+            echo "<option value='$o'>$o</option>";
+          }
         }
         echo "</select></div>";
 

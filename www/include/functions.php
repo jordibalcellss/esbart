@@ -44,9 +44,17 @@ function sortByName($a,$b) {
 }
 
 function getNextId($con,$entity) {
+
+  $user_oclass_array=preg_split ("/\,/", LDAP_USER_OBJ_CLASSES);
+
   //returns next available ID for either users or groups
   if ($entity == 'user') {
     $attr = 'uidnumber';
+
+    //If not working with posixAccount, return 0;
+    if (!in_array("posixAccount", $user_oclass_array)){
+      return 0;
+    }
   }
   else if ($entity == 'group') {
     $attr = 'gidnumber';
@@ -192,6 +200,19 @@ function disableAccount($uid) {
   }
 }
 
+function canChangeUserPassword($uid){
+
+  $udn=getUserDN($uid);
+
+  if ( strpos($udn, LDAP_NOPASSWD_CHANGE_OU) !== false) {
+    $err[] = 'Error: '.$uid.' '.unable_change_pass_sync;
+    writeLog('login-error.log','Error: '.$uid.' '.unable_change_pass_sync);
+    return false;
+  }else{
+    return true;
+  }
+}
+
 function addUserToGroups($uid,$groups) {
   //expects an array of group names
   $con = LDAPconnect();
@@ -201,7 +222,7 @@ function addUserToGroups($uid,$groups) {
   foreach ($groups as $group) {
     //the select html tag may send an empty string
     if (strlen($group) > 0) {
-      $result = ldap_mod_add($con[0],"cn=$group,".LDAP_GROUPS_DN,$entry);
+      $result = @ldap_mod_add($con[0],"cn=$group,".LDAP_GROUPS_DN,$entry);
         if (!$result) {
           $fail = true;
       }
@@ -209,6 +230,25 @@ function addUserToGroups($uid,$groups) {
   }
   ldap_close($con[0]);
   return !$fail;
+}
+
+function removeUser($uid) {
+
+  $con = LDAPconnect();
+  $udn=getUserDN($uid);
+
+  $result = ldap_delete($con[0],$udn);
+  if($result){
+    writeLog('info.log',$uid.' '.removed_user_success);
+  }
+  else {
+    writeLog('error.log',ldap_error($con));
+    ldap_get_option($con, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
+    writeLog('error.log',$err);
+    $err[] = removed_user_failed. ' '.$uid;
+  }
+  ldap_close($con[0]);
+  return $result;  
 }
 
 function removeUserFromGroups($uid,$groups) {
@@ -241,6 +281,7 @@ function getOrganizationalUnits(){
       $ous[$i]['dn']=$entries[$i]['dn'];
       $ous[$i]['ou']=$entries[$i]['ou']; 
     }
+    ldap_close($con[0]);
     return $ous;
   }
   else {
@@ -248,6 +289,7 @@ function getOrganizationalUnits(){
     ldap_get_option($con, LDAP_OPT_DIAGNOSTIC_MESSAGE, $err);
     writeLog('login-error.log',$err);
     $err[] = cant_get_ous;
+    ldap_close($con[0]);
     return null;
   }
 }
@@ -351,9 +393,12 @@ function sendOneTimeSetPasswordEmail($uid,$manual) {
     $url = URL."/set.php?p=$pass";
   
     if ($manual) {
+
+      console($pd);
+
       $url = $url."&man";
       $subject = reset_password;
-      $message = "<html><p>".ucfirst(greeting)." $pd[0],</p>
+      $message = "<html><p>".ucfirst(greeting).' '.$pd[1][0]."</p>
       <p>".somebody_offered_reset_link."</p>
       <p><a href=\"$url\">$url</a></p>
       <p>".if_unsolicited_ignore."</p>
@@ -374,7 +419,7 @@ function sendOneTimeSetPasswordEmail($uid,$manual) {
       </html>";
   }
 
-    $result_mail = mail($pd[3],$subject,$message,implode("\r\n",$headers));
+    $result_mail = mail($pd[1][3],$subject,$message,implode("\r\n",$headers));
 
     /*
      * insert the token into the database

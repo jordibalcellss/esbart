@@ -28,6 +28,7 @@ define("edit","edit");
 define("repeat","repeat");
 define("create","set");
 define("save","save");
+define("remove","remove");
 define("was_disabled","was disabled");
 
 define("name","name");
@@ -103,5 +104,10 @@ define("account_ready_advice","");
 define("account_ready_server","");
 define("account_ready_explanation","");
 define("account_ready_help","If you need help with any service, you can reach us at ".FROM_REPLYTO.".");
+
+define("unable_change_pass_sync","already synchronized with another ldap database. Unable to change user password.");
+define("removed_user_success","removed action success");
+define("removed_user_failed","Can't remove user");
+define("remove_user_confirmation","Are you sure, you want to delete it?");
 
 ?>
