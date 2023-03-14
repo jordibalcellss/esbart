@@ -11,7 +11,7 @@ A fork from esbart project which is an LDAP web frontend written in PHP. The goa
   * LDAP_GROUP_ATTR
   * LDAP_GROUPS_DN
   * LDAP_USER_OBJ_CLASSES
-* Remove create/assisted mode;
+* Removed create/assisted mode;
 * Added javascript autocomplete login input for create user based on typed user name's;
 * Removed hidden input name;
 * Added Organizational Unit for crease user page;
