@@ -49,8 +49,12 @@ else {
       if (in_array("telephoneNumber", $user_attr_array) && isset( $phone ) )
         $entry['telephoneNumber'] = $phone;
         
-      if (in_array("sambasid", $user_attr_array) )
+      /*if (in_array("sambasid", $user_attr_array) )
         $entry['sambasid'] = getSambaSID($uidnumber);
+      */
+
+      if (in_array("sambaSamAccount", $user_oclass_array) )
+        $entry['sambasid'] = LDAP_SAMBA_SID;
       
       //add entry
       $res_entry = ldap_add($con,'uid='.$login.",".$ou,$entry);

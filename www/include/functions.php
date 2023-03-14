@@ -123,11 +123,17 @@ function accountHasEmail($uid) {
   $result = ldap_read($con[0],$udn,"(cn=*)", array(LDAP_USER_EMAIL_ATTR ));
   $entries = ldap_get_entries($con[0],$result);
   ldap_close($con[0]);
-  if (strlen($entries[0][LDAP_USER_EMAIL_ATTR][0]) > 0) {
-    return true;
-  }
+  if(isset($entries[0][LDAP_USER_EMAIL_ATTR][0])){
+    if (strlen($entries[0][LDAP_USER_EMAIL_ATTR][0]) > 0) {
+      return true;
+    } 
+    else {
+      writeLog('login-info.log',"uid=$uid,".LDAP_SEARCH_DN." has no email");
+      return false;
+    }
+  }  
   else {
-    writeLog('login-error.log',"uid=$uid,".LDAP_SEARCH_DN." has no email");
+    writeLog('login-info.log',"uid=$uid,".LDAP_SEARCH_DN." has no email");
     return false;
   }
 }

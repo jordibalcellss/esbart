@@ -30,16 +30,29 @@ for ($i = 1; $i < count($entries); $i++) {
     $reinvite = '&nbsp;&nbsp;<a href="?module=users&action=password&object='.$entries[$i]['uid'][0].'&reinvite">'.reinvite.'</a>';
   }
   $edit = '&nbsp;&nbsp;<a href="?module=users&action=edit&object='.$entries[$i]['uid'][0].'">'.edit.'</a>';
-  echo "        <tr>\n";
-  echo '          <td width="200">'.$entries[$i]['cn'][0]."</td>\n";
-  echo '          <td width="100">'.$entries[$i]['uid'][0]."</td>\n";
-  echo '          <td width="300">'.$entries[$i][LDAP_USER_EMAIL_ATTR][0]."</td>\n";
-  echo '          <td>'.implode(', ',getUserMembership($entries[$i]['uid'][0]))."</td>\n";
-  echo '          <td align="right" width="200">'.$password.$disable.$reinvite.$edit."</td>\n";
-  echo "        </tr>\n";
+  echo "<tr>";
+  
+  if(isset($entries[$i]['cn'][0]))
+    echo '<td width=\'200\'>'.$entries[$i]['cn'][0].'</td>';
+  else
+    echo '<td width="200"></td>';
+
+  if(isset($entries[$i]['uid'][0]))
+    echo '<td width=\'100\'>'.$entries[$i]['uid'][0].'</td>';
+  else
+    echo "<td width='100'></td>";
+  
+  if(isset($entries[$i][LDAP_USER_EMAIL_ATTR][0]))
+    echo '<td width=\'300\'>'.$entries[$i][LDAP_USER_EMAIL_ATTR][0].'</td>';
+  else
+    echo "<td width='300'></td>";
+
+  echo '<td>'.implode(', ',getUserMembership($entries[$i]['uid'][0]))."</td>";
+  echo '<td align="right" width="200">'.$password.$disable.$reinvite.$edit."</td>";
+  echo "</tr>";
 }
-echo "      </table>\n";
-echo "      <p>".there_are." ".ldap_count_entries($con,$result)." ".users."</p>\n";
+echo "      </table>";
+echo "      <p>".there_are." ".ldap_count_entries($con,$result)." ".users."</p>";
 ldap_close($con);
 
 ?>
