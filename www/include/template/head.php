@@ -3,6 +3,7 @@
   <head>
     <link rel="stylesheet" href="css/base.css" media="screen,print" type="text/css" />
     <link rel="stylesheet" href="css/<?=MODE?>.css" media="screen,print" type="text/css" />
+    <link rel="stylesheet" href="../../styles/users-add.css" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
@@ -12,5 +13,5 @@
   <body>
     <div id="trunk">
       <div id="head">
-        <span><?=greeting?>, <?=$_SESSION['id']?>! - <a href="?module=users"><?=users?></a> - <a href="?module=groups"><?=groups?></a> - <a href="login.php?action=logout"><?=logout?></a></span>
+        <span><?=greeting?>, <?=$_SESSION['id']?>! - <a href="?module=users"><?=users?></a> - <a href="?module=groups"><?=groups?></a> - <a href="?module=configuration"><?=configuration?></a> - <a href="login.php?action=logout"><?=logout?></a></span>
       </div>

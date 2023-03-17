@@ -51,10 +51,43 @@ else {
 
       if (in_array("telephoneNumber", $user_attr_array) && isset( $phone ) )
         $entry['telephoneNumber'] = $phone;
-        
+
+      /* RADIUS ATTR */
+
+      if (in_array("radiusSimultaneousUse", $user_attr_array) && in_array("radiusprofile", $user_oclass_array) && isset( $_POST['radiusSimultaneousUse'] ) )
+        $entry['radiusSimultaneousUse'] = $_POST['radiusSimultaneousUse'];
+      
+      if (in_array("radiusTunnelPrivateGroupId", $user_attr_array) && in_array("radiusprofile", $user_oclass_array) && isset( $_POST['radiusTunnelPrivateGroupId'] ) )
+        $entry['radiusTunnelPrivateGroupId'] = $_POST['radiusTunnelPrivateGroupId'];
+      
+      if (in_array("radiusExpiration", $user_attr_array) && in_array("radiusprofile", $user_oclass_array) && isset( $_POST['radiusExpiration'] ) )
+        $entry['radiusExpiration'] = $_POST['radiusExpiration'];
+      
+      if (in_array("radiusprofile", $user_oclass_array)){
+        $entry['radiusTunnelType'] = '13';
+        $entry['radiusTunnelMediumType'] = '6';
+      }
+
+      if (in_array("brPersonCpf", $user_attr_array) && in_array("brPerson", $user_oclass_array) && isset( $_POST['brPersonCpf'] ) ){
+        $entry['brPersonCpf'] = $_POST['brPersonCpf'];
+        $password = mb_substr($entry['brPersonCpf'], 0, 4);
+      }
+      else{
+        $password = '1234';
+      }
+      //set the samba password
+      $entry['sambantpassword'] = strtoupper(hash('md4',iconv('UTF-8','UTF-16LE',$password)));
+      $entry['sambapasswordhistory'] = '0000000000000000000000000000000000000000000000000000000000000000';
+      $entry['sambapwdlastset'] = time();
+      $entry['sambaacctflags'] = '[U          ]';
+      
+      //set the password
+      $entry['userpassword'] = "{SHA}".base64_encode(pack("H*",sha1($password)));
+    
       /*if (in_array("sambasid", $user_attr_array) )
         $entry['sambasid'] = getSambaSID($uidnumber);
       */
+
       if (in_array("sambaSamAccount", $user_oclass_array) )
         $entry['sambasid'] = LDAP_SAMBA_SID;
       

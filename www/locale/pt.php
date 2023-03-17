@@ -110,5 +110,7 @@ define("removed_user_success","removido com sucesso.");
 define("removed_user_failed","Não foi possível remover o usuário");
 define("remove_user_confirmation","Você tem certeza que deseja remover?");
 
+define("only_numbers_allowed","Apenas números permitidos");
+define("configuration","ajustes");
 
 ?>

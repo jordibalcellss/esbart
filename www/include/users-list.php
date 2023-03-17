@@ -30,8 +30,7 @@ for ($i = 1; $i < count($entries); $i++) {
   }
  
   $edit = '&nbsp;&nbsp;<a href="?module=users&action=edit&object='.$uid.'">'.edit.'</a>';
-
-  $remove = '&nbsp;&nbsp;<a href="?module=users&action=remove&object='.$uid.'" onclick="return confirm(\''.remove_user_confirmation.'\')">'.remove.'</a>';
+  #$remove = '&nbsp;&nbsp;<a href="?module=users&action=remove&object='.$uid.'" onclick="return confirm(\''.remove_user_confirmation.'\')">'.remove.'</a>'; 
   echo "<tr>";
   
   if(isset($cn))
@@ -50,7 +49,7 @@ for ($i = 1; $i < count($entries); $i++) {
     echo "<td width='300'></td>";
 
   echo '<td>'.implode(', ',getUserMembership($uid))."</td>";
-  echo '<td align="right" width="200">'.$password.$disable.$reinvite.$edit.$remove."</td>";
+  echo '<td align="right" width="200">'.$password.$disable.$reinvite.$edit."</td>";
   echo "</tr>";
 }
 echo "      </table>";
