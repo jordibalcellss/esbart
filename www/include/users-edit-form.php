@@ -1,7 +1,7 @@
 <?php
 
 if ($pd = getPersonalData($_GET['object'])) {
-
+  
 ?>
       <h2><?=edit?> <?=user?></h2>
       <form id="user" enctype="application/x-www-form-urlencoded" method="post" action="index.php?module=users&action=edit&object=<?=$pd[1][2]?>">

@@ -118,4 +118,9 @@ define("dn","dn");
 
 define("page_under_development","Página em construção");
 
+define("cn","cn");
+define("uid","uid");
+define("devices","dispositivos");
+define("macaddress","MAC Address");
+
 ?>
