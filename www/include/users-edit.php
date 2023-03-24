@@ -1,17 +1,9 @@
 <?php
 
-/*
-if (strlen($_POST['name']) == 0) {
-  $err[] = name_cannot_be_empty;
-}
-if (strlen(trim($_POST['email'])) > 0) {
-  if (!filter_var(trim($_POST['email']),FILTER_VALIDATE_EMAIL)) {
-    $err[] = verify_email;
-  }
-}
-*/
-
-$groups=$_POST["groups"];
+if (isset($_POST["groups"]))
+  $groups=$_POST["groups"];
+else
+  $groups=array('');
 $uid=$_GET['object'];
 $udn=getUserDN($uid);
 

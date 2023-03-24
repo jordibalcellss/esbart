@@ -15,3 +15,9 @@ input[type="submit"] {
 }
 
 div.not-editable-form-item { color: #777; }
+
+.validation-message {
+  color: red;
+  font-size: 0.8em;
+  margin-left: 5px;
+}

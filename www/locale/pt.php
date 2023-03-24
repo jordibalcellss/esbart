@@ -112,5 +112,10 @@ define("remove_user_confirmation","Você tem certeza que deseja remover?");
 
 define("only_numbers_allowed","Apenas números permitidos");
 define("configuration","ajustes");
+define("sync","sincronizar");
+define("user_sync_success","a conta foi sincronizada com sucesso");
+define("dn","dn");
+
+define("page_under_development","Página em construção");
 
 ?>

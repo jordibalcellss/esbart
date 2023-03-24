@@ -63,3 +63,9 @@ div#trunk { min-height: 100%; height: auto !important; height: 100%; margin-bott
 div#head { margin-bottom: 50px; padding-top: 20px; }
 div#base, .push { height: 37px; }
 .push { padding-top: 60px; }
+
+.validation-message {
+  color: red;
+  font-size: 0.8em;
+  margin-left: 5px;
+}

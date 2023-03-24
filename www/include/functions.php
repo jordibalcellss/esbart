@@ -16,6 +16,15 @@ function LDAPconnect() {
   return array($con,$bind);
 }
 
+function LDAPSyncConnect() {
+  $con = ldap_connect(LDAP_SYNC_HOST);
+  ldap_set_option($con,LDAP_OPT_PROTOCOL_VERSION,3);
+  if ($con) {
+    $bind = ldap_bind($con,LDAP_SYNC_USER,LDAP_SYNC_PASS);
+  }
+  return array($con,$bind);
+}
+
 function printMessages($err) {
   //displays HTML form error messages
   if (count($err)) {
@@ -79,6 +88,56 @@ function getSambaSID($uidnumber) {
   return LDAP_SAMBA_SID.'-'.$samba_id;
 }
 
+function userExistSyncDB($mail) {
+
+  if(!isset($mail) || empty($mail))
+    return false;
+
+  $con = LDAPSyncConnect();
+  $res = ldap_search($con[0], LDAP_SYNC_SEARCH_DN, "(mail=$mail)");
+  $first = ldap_first_entry($con[0], $res);
+  if (!$first)
+    return false;
+  else{
+    writeLog('info.log',$mail.' '.$first);
+    return true;
+  }
+}
+
+function getSyncPersonalData($mail) {
+
+  $con = LDAPSyncConnect();
+  $res = ldap_search($con[0], LDAP_SYNC_SEARCH_DN, "(mail=$mail)");
+  $first = ldap_first_entry($con[0], $res);
+  if (!$first)
+    return null;
+  $udn = ldap_get_dn($con[0], $first);
+  if (!$udn){
+    writeLog('error.log',user_dn_not_found);
+    return null;
+  }
+
+  $user_sync_attr_array=preg_split ("/\,/", LDAP_SYNC_USER_ATTRS);
+  $result = @ldap_read($con[0],$udn,"(cn=*)",$user_sync_attr_array); 
+  $user_attr_not_found[] = null;
+
+  if ($result) {
+    $entries = ldap_get_entries($con[0],$result);
+
+    if ($entries){
+      return $entries;
+    }
+    else{
+      ldap_close($con[0]);
+      return null;
+    }
+  }
+  else {
+    ldap_close($con[0]);
+    return false;
+  }
+}
+
 function getPersonalData($uid) {
   /*
    * returns an array with the attributes
@@ -101,18 +160,85 @@ function getPersonalData($uid) {
   if ($result) {
     $entries = ldap_get_entries($con[0],$result);
 
-    $x=0;
-    foreach ($user_attr_array as $value) {
-      if ( isset($entries[0][$value][0]) ){
-        $pd[$x] = $entries[0][$value][0];
-        $x=$x+1;
-      }
-      else
-        $user_attr_not_found [] = $value;
+    if ($entries){
+      return $entries;
     }
-    
-    $user_attr_array = array_diff($user_attr_array, $user_attr_not_found);    
-    return array($user_attr_array,$pd);
+    else{
+      ldap_close($con[0]);
+      return null;
+    }
+  }
+  else {
+    ldap_close($con[0]);
+    return false;
+  }
+}
+
+function getPersonalDataAttrs($uid,$attr_array) {
+  /*
+   * returns an array with the attributes
+   * passed by parameter
+   * 
+   * returns false on failure, or two arrays: the first
+   * containing the attributes and the second array
+   * containing its values
+   */
+  $con = LDAPconnect();
+  $udn=getUserDN($uid);
+  
+  if($udn == null)
+    return false;
+  
+  $user_attr_array=preg_split ("/\,/", LDAP_USER_ATTRS);
+  $result = @ldap_read($con[0],$udn,"(cn=*)",$attr_array); 
+  $user_attr_not_found[] = null;
+
+  if ($result) {
+    $entries = ldap_get_entries($con[0],$result);
+
+    if ($entries){
+      return $entries;
+    }
+    else{
+      ldap_close($con[0]);
+      return null;
+    }
+  }
+  else {
+    ldap_close($con[0]);
+    return false;
+  }
+}
+
+function getPersonalDataAllAttrs($uid) {
+  /*
+   * returns an array with all the attrs
+   * from an entry
+   * 
+   * returns false on failure, or two arrays: the first
+   * containing the attributes and the second array
+   * containing its values
+   */
+  $con = LDAPconnect();
+  $udn=getUserDN($uid);
+  
+  if($udn == null)
+    return false;
+  
+  $user_attr_array=preg_split ("/\,/", LDAP_USER_ATTRS);
+  $result = @ldap_read($con[0],$udn,"(cn=*)"); 
+  $user_attr_not_found[] = null;
+
+  if ($result) {
+    $entries = ldap_get_entries($con[0],$result);
+
+    if ($entries){
+      return $entries;
+    }
+    else{
+      ldap_close($con[0]);
+      return null;
+    }
   }
   else {
     ldap_close($con[0]);
@@ -136,12 +262,12 @@ function accountHasEmail($uid) {
       return true;
     } 
     else {
-      writeLog('login-info.log',"uid=$uid,".LDAP_SEARCH_DN." has no email");
+      writeLog('info.log',"uid=$uid,".LDAP_SEARCH_DN." has no email");
       return false;
     }
   }  
   else {
-    writeLog('login-info.log',"uid=$uid,".LDAP_SEARCH_DN." has no email");
+    writeLog('info.log',"uid=$uid,".LDAP_SEARCH_DN." has no email");
     return false;
   }
 }
@@ -170,11 +296,11 @@ function accountIsEnabled($uid) {
   $entries = ldap_get_entries($con[0],$result);
   ldap_close($con[0]);
   if (isset($entries[0]['userpassword'][0]) || isset($entries[0]['sambantpassword'][0])) {
-    writeLog('login-info.log',$uid.' account enabled');
+    writeLog('info.log',$uid.' account enabled');
     return true;
   }
   else if (!isset($entries[0]['userpassword'][0]) && !isset($entries[0]['sambantpassword'][0])){
-    writeLog('login-info.log',$uid.' account disabled');
+    writeLog('info.log',$uid.' account disabled');
     return false;
   }
 }

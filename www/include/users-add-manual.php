@@ -91,6 +91,18 @@ else {
       if (in_array("sambaSamAccount", $user_oclass_array) )
         $entry['sambasid'] = LDAP_SAMBA_SID;
       
+      $exists = userExistSyncDB($entry['mail']);
+      if ( $exists ) {
+          $sync = getSyncPersonalData($entry['mail']);
+          $entry['sambantpassword'] = $sync[0]['sambantpassword'][0];
+          $entry['userpassword'] = $sync[0]['userpassword'][0];
+          $entry['sn'] = $sync[0]['sn'][0];
+          $entry['brpersoncpf'] = $sync[0]['brpersoncpf'][0];
+          writeLog('info.log',"$email ".user_sync_success);
+      }else{
+        writeLog('info.log',"email not found in sync ldap.");
+      }
+
       //add entry
       $res_entry = ldap_add($con,'uid='.$login.",".$ou,$entry);
             

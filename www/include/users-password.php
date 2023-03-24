@@ -43,7 +43,7 @@ if (canChangeUserPassword($uid)){
           $err_des = ldap_error($con);
           $err_num = ldap_errno($con);
           $err[] = 'Error: LDAP '.$err_num .' '. $error_des;
-          writeLog('login-error.log','Error: LDAP '.$err_num .' '. $error_des);
+          writeLog('error.log','Error: LDAP '.$err_num .' '. $error_des);
         }
         else {
           $err[] = new_password_ready;

@@ -1,7 +1,7 @@
 <?php
 
 $con = LDAPconnect()[0];
-$result = ldap_search($con,LDAP_SEARCH_DN,"(cn=*)",array('cn',LDAP_USER_EMAIL_ATTR,'uidnumber','uid'));
+$result = ldap_search($con,LDAP_SEARCH_DN,"(cn=*)",array('cn',LDAP_USER_EMAIL_ATTR,'uid'));
 $entries = ldap_get_entries($con,$result);
 //sort alphabetically
 usort($entries,"sortByName");
@@ -15,22 +15,38 @@ echo "          <th>".member_of."</th>\n";
 echo "          <th align=\"right\">".actions."</th>\n";
 echo "        </tr>\n";
 for ($i = 1; $i < count($entries); $i++) {
+  
   $uid=$entries[$i]['uid'][0];
   $cn=$entries[$i]['cn'][0];
+  
+  if (isset($entries[$i]['mail'][0]))
+    $mail = $entries[$i]['mail'][0];
 
-  $password ='';
+  $password = '';
+  $sync = '';
+  $disable = '';
+  $reinvite = '';
 
-  if (canChangeUserPassword($uid)) {
+  if(isset($mail) && !empty($mail)){
+    if (!userExistSyncDB($mail)) {
+      $password = '<a href="?module=users&action=password&object='.$uid.'">'.password.'</a>';
+    }else{
+      $sync = '&nbsp;&nbsp;<a href="?module=users&action=sync&object='.$uid.'">'.sync.'</a>';
+    }
+  }
+  else{
     $password = '<a href="?module=users&action=password&object='.$uid.'">'.password.'</a>';
   }
-
+  
+  /*
   if (accountIsEnabled($uid)) {
     $disable = '&nbsp;&nbsp;<a href="?module=users&action=disable&object='.$uid.'">'.disable.'</a>';
     $reinvite = '';
-  }
+  }*/
  
   $edit = '&nbsp;&nbsp;<a href="?module=users&action=edit&object='.$uid.'">'.edit.'</a>';
   #$remove = '&nbsp;&nbsp;<a href="?module=users&action=remove&object='.$uid.'" onclick="return confirm(\''.remove_user_confirmation.'\')">'.remove.'</a>'; 
+    
   echo "<tr>";
   
   if(isset($cn))
@@ -49,8 +65,10 @@ for ($i = 1; $i < count($entries); $i++) {
     echo "<td width='300'></td>";
 
   echo '<td>'.implode(', ',getUserMembership($uid))."</td>";
-  echo '<td align="right" width="200">'.$password.$disable.$reinvite.$edit."</td>";
+  echo '<td align="right" width="200">'.$password.$disable.$reinvite.$edit.$sync."</td>";
   echo "</tr>";
+
+  $mail = '';
 }
 echo "      </table>";
 echo "      <p>".there_are." ".ldap_count_entries($con,$result)." ".users."</p>";
