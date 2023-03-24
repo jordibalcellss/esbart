@@ -28,7 +28,9 @@ A fork from esbart project which is an LDAP web frontend written in PHP. The goa
 ## Running:
 
 git clone https://github.com/dcc6fvo/php-ldap-esbart.git
+
 cd php-ldap-esbart
+
 docker compose up
 
 
