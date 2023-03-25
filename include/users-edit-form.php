@@ -20,7 +20,7 @@ if ($pd = getPersonalData($_GET['object'])) {
         <div><input name="loginshell" type="text" class="short" value="<?=$pd[5]?>" /></div>
 <?php
 echo "\n";
-echo "        <div><label for=\"groups\">".member_of.":</label></div>\n";
+echo "        <div><label for=\"groups\">".member_of."</label></div>\n";
 echo "        <div><select name=\"groups[]\" multiple>\n";
 echo "          <option value=\"\"></option>\n";
 //get the groups the user is a member of

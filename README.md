@@ -14,7 +14,7 @@ The software will also deliver one-time password change tokens via email to stre
 
 * An LDAP directory (OpenLDAP for instance)
 * A webserver
-* A MySQL/MariaDB database (to store password change tokens)
+* A MySQL/MariaDB database (for storing password change tokens)
 * A Mail Transmission Agent
 * PHP modules
   * php-mbstring

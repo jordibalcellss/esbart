@@ -1,5 +1,5 @@
-      <h2><?=add?> <?=user?> - <?=assisted_mode?></h2>
-      <h3><?=user_add_how_to_use?></h3>
+      <h3><?=add?> <?=user?> - <?=assisted_mode?></h3>
+      <h4><?=user_add_how_to_use?></h4>
       <ul>
         <li><?=user_add_assisted_advice_1?></li>
         <li><?=user_add_assisted_advice_2?></li>
@@ -21,7 +21,7 @@ if (!HIDE_SECOND_SURNAME) {
         <div><input name="email" type="text" value="" /></div>
 <?php
 echo "\n";
-echo "        <div><label for=\"groups\">".member_of.":</label></div>\n";
+echo "        <div><label for=\"groups\">".member_of."</label></div>\n";
 echo "        <div><select name=\"groups[]\" multiple>\n";
 echo "          <option value=\"\"></option>\n";
 $groups = getAssignableGroups();

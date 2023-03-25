@@ -1,5 +1,5 @@
-      <h2><?=add?> <?=user?></h2>
-      <h3><?=user_add_how_to_use?></h3>
+      <h3><?=add?> <?=user?></h3>
+      <h4><?=user_add_how_to_use?></h4>
       <ul>
         <li><?=user_add_advice_1?></li>
         <li><?=user_add_advice_2?></li>
@@ -21,7 +21,7 @@
         <div><input name="loginshell" type="text" class="short" value="/bin/false" /></div>
 <?php
 echo "\n";
-echo "        <div><label for=\"groups\">".member_of.":</label></div>\n";
+echo "        <div><label for=\"groups\">".member_of."</label></div>\n";
 echo "        <div><select name=\"groups[]\" multiple>\n";
 echo "          <option value=\"\"></option>\n";
 $groups = getAssignableGroups();

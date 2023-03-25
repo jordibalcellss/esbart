@@ -287,7 +287,7 @@ function sendOneTimeSetPasswordEmail($uid,$manual) {
 <p><a href=\"$url\">$url</a></p>
 <p>".if_unsolicited_ignore."</p>
 <p>".thank_you."</p>
-<img src=\"".URL."/".FOOTER_IMAGE_P."\" alt=\"".FROM_NAME."\" />
+<img src=\"".URL."/".FOOTER_IMAGE."\" alt=\"".FROM_NAME."\" />
 <p style=\"font-size: 12px;\"><a href=\"".FOOTER_PRIVACY_POLICY_URL."\">".FROM_NAME." - ".privacy_policy."</a></p>
 </html>";
   }
@@ -298,7 +298,7 @@ function sendOneTimeSetPasswordEmail($uid,$manual) {
 <p><a href=\"$url\">$url</a></p>
 <p>".welcome_access_advice."</p>
 <p>".thank_you."</p>
-<img src=\"".URL."/".FOOTER_IMAGE_P."\" alt=\"".FROM_NAME."\" />
+<img src=\"".URL."/".FOOTER_IMAGE."\" alt=\"".FROM_NAME."\" />
 <p style=\"font-size: 12px;\"><a href=\"".FOOTER_PRIVACY_POLICY_URL."\">".FROM_NAME." - ".privacy_policy."</a></p>
 </html>";
   }
@@ -354,7 +354,7 @@ function sendWelcomeEmail($uid) {
 <p>".account_ready_explanation."</p>
 <p></p>
 <p>".cheers."</p>
-<img src=\"".URL."/".FOOTER_IMAGE_P."\" alt=\"".FROM_NAME."\" />
+<img src=\"".URL."/".FOOTER_IMAGE."\" alt=\"".FROM_NAME."\" />
 <p style=\"font-size: 12px;\"><a href=\"".FOOTER_PRIVACY_POLICY_URL."\">".FROM_NAME." - ".privacy_policy."</a></p>
 </html>";
 

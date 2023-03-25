@@ -13,7 +13,7 @@ input.short { width: 135px; }
 input[type="text"], input[type="password"] {
   padding: 4px 4px 4px 6px;
   margin-top: 4px;
-  margin-bottom: 10px;
+  margin-bottom: 13px;
   border-radius: 2px;
 }
 
@@ -42,7 +42,7 @@ ul { margin: 14px; list-style-type: square; }
 
 div#sec-menu { margin-bottom: 35px; }
 
-h2, h3, h4 { margin-bottom: 18px; }
+h2, h3, h4, div#trunk p { margin-bottom: 18px; }
 
 table { margin-bottom: 12px; }
 table.separated { margin-top: 35px; }
