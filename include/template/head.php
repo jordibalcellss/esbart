@@ -12,5 +12,10 @@
   <body>
     <div id="trunk">
       <div id="head">
-        <span><?=greeting?>, <?=$_SESSION['id']?>! - <a href="?module=users"><?=users?></a> - <a href="?module=groups"><?=groups?></a> - <a href="login.php?action=logout"><?=logout?></a></span>
+        <span>
+          <?=greeting?>, <?=$_SESSION['id']?>! -
+          <a href="?module=users"><?=users?></a> -
+          <a href="?module=groups"><?=groups?></a> - - 
+          <a href="login.php?action=logout"><?=logout?></a>
+        </span>
       </div>

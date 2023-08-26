@@ -102,4 +102,7 @@ define("account_ready_server","");
 define("account_ready_explanation","");
 define("account_ready_help","Si tens algun problema amb algun dels serveis, pots enviar un correu a ".FROM_REPLYTO.".");
 
+define("your_account_in","El teu compte a");
+define("is_ready","ja és actiu");
+
 ?>

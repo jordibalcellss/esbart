@@ -274,7 +274,7 @@ function sendOneTimeSetPasswordEmail($uid,$manual) {
     $headers[] = 'X-Mailer: '.TITLE;
     $headers[] = 'X-Mailer: PHP/'.phpversion();
     $headers[] = 'X-PHP-Originating-Script: '.TITLE;
-  
+
     //create a random string token
     $pass = bin2hex(openssl_random_pseudo_bytes(8));
     $url = URL."/set.php?p=$pass";
@@ -303,7 +303,7 @@ function sendOneTimeSetPasswordEmail($uid,$manual) {
 </html>";
   }
 
-    $result_mail = mail($pd[3],$subject,$message,implode("\r\n",$headers));
+    $result_mail = mail($pd[3],$subject,$message,implode("\r\n",$headers),'-f'.FROM_ADDR);
 
     /*
      * insert the token into the database
@@ -335,7 +335,7 @@ function sendWelcomeEmail($uid) {
    * returns false on failure
    */
   $pd = getPersonalData($uid);
-  $subject = 'El teu compte a '.FROM_NAME.' ja és actiu';
+  $subject = your_account_in.' '.FROM_NAME.' '.is_ready;
   
   $headers[] = 'From: '.FROM_NAME.' <'.FROM_ADDR.'>';
   $headers[] = 'Reply-To: '.FROM_REPLYTO;
@@ -358,7 +358,7 @@ function sendWelcomeEmail($uid) {
 <p style=\"font-size: 12px;\"><a href=\"".FOOTER_PRIVACY_POLICY_URL."\">".FROM_NAME." - ".privacy_policy."</a></p>
 </html>";
 
-  if (mail($pd[3],$subject,$message,implode("\r\n",$headers))) {
+  if (mail($pd[3],$subject,$message,implode("\r\n",$headers),'-f'.FROM_ADDR)) {
     return true;
   }
   else {
