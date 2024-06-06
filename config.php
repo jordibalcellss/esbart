@@ -1,7 +1,7 @@
 <?php
 
 //esbart
-define('URL','http://localhost/esbart/');
+define('URL','https://laptop.test/esbart');
 define('TITLE','esbart');
 define('LOCALE','en');
 define('MODE','dark');
@@ -19,13 +19,13 @@ define('FOOTER_PRIVACY_POLICY_URL','');
 define('DB_HOST','localhost');
 define('DB_NAME','esbart');
 define('DB_PORT',3306);
-define('DB_USER','mysql');
-define('DB_PASS','mysql');
+define('DB_USER','mariadb');
+define('DB_PASS','mariadb');
 
 //LDAP
-define('LDAP_TREE','dc=laptop,dc=local');
+define('LDAP_TREE','dc=test');
 define('LDAP_USER','cn=ldapadm,'.LDAP_TREE);
-define('LDAP_HOST','localhost');
+define('LDAP_HOST','ldaps://localhost:636');
 define('LDAP_PASS','testldap');
 define('LDAP_AUTH_GROUP','cn=tech,ou=groups,'.LDAP_TREE);
 define('LDAP_PRIMARY_GROUP_ID','2001');
